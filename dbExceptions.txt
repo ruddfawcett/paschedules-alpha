@@ -1,0 +1,3 @@
+Kathryn J. McQuade 
+kmcquade@andover.edu
+Teacher.create(full_name: "Kathryn J. McQuade", first_name: "Kathryn", last_name: "McQuade", email: "kmcquade@andover.edu")

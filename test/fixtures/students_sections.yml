@@ -1,0 +1,18 @@
+# == Schema Information
+#
+# Table name: students_sections
+#
+#  id         :integer          not null, primary key
+#  student_id :integer          not null
+#  section_id :integer          not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  student_id: 1
+  section_id: 1
+
+two:
+  student_id: 1
+  section_id: 1
