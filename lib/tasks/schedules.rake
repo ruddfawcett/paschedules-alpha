@@ -157,14 +157,28 @@ namespace :schedules do
         browser.goto("https://colwizlive.andover.edu/cgi-bin/wwiz.exe/wwiz.asp?" \
                      "wwizmstr=WEB.STU.SCHED1.SUBR&stuid=#{stu.pa_id}&uid=#{STUID}&uou=student")
         
-        browser.tables[0].to_a.each_with_index do |arr, idx|
-          next if arr[0] == " " || arr[0].match(/^ATH-/) || arr[0].match(/WD-/) || # Ignore music lessons, work duty,
-            arr[0].match(/MUSC-909/) || arr[0].match(/MUSC-910/) || idx < 3        # and athletics
+        doc = Nokogiri::HTML(browser.html) # Upgraded with Nokogiri
+        resultsArray = []
+        for i in 4..14
+          tmpArr = []
+          doc.xpath("//table//tbody//tr[#{i}]").text.split("\n").each do |s|
+            s.gsub!(/^[[:space:]]*(.*?)[[:space:]]*$/, '\1') # Because Ruby currently has a bug where string#strip
+            tmparr << s unless s.empty?                      # doesn't support Unicode spaces
+          end
+          resultsArray << tmpArr
+        end
+        require 'pp'
+
+        #browser.tables[0].to_a.each_with_index do |arr, idx| # This tables function is a bit slow...
+        resultsArray.each do |arr|
+          next if arr[0].nil? || arr[0].empty? || arr[0].match(/^ATH-/) || arr[0].match(/WD-/) || # Ignore music lessons, work duty,
+            arr[0].match(/MUSC-909/) || arr[0].match(/MUSC-910/) # || idx < 3        # and athletics
+          pp arr
           secName = arr[0].strip
           secTitle = arr[1].strip
-          teacherName = arr[3].strip
-          time = arr[4].strip
-          room = arr[5].strip
+          teacherName = arr[2].strip
+          time = arr[3].strip
+          room = arr[4].strip
           courseName = secName.gsub(/(.+)-.*/, '\1')
           finalTeacher = nil
           if teacherName == "Department"
@@ -234,7 +248,7 @@ namespace :schedules do
         
         # Watir's tables[]... function is really easy to use, but its horrendously slow
         # The following code takes adds about 4 seconds to runtime, which for 1200 students is 
-        # unacceptable.  I may re-write this in Nokogiri if I can figure out how to.
+        # unacceptable.  I may re-write this in Nokogiri if I can figure out how to. DONE: Nokogiri below
         
         # resultsHash = {         # Hooray for Emacs' multiple-cursors mode and iy-go-to-char...
         #   # Monday
@@ -291,7 +305,7 @@ namespace :schedules do
         #   "41" => browser.tables[0][1].tables[1][12][1].text.split("\n")[2], # 9
         #   "42" => browser.tables[0][1].tables[1][13][1].text.split("\n")[2]  # 9e
         # }
-        doc = Nokogiri::HTML(browser.html)
+        doc = Nokogiri::HTML(browser.html) # Nokogiri = fast
         resultsHash = {
           # Monday
           "0" => doc.xpath("//body//table[1]//tbody[1]//tr[2]//td[1]//table[1]//tbody[1]//tr[3]//td[1]//table[1]//tbody[1]//tr[2]//td[1]//b[2]//font[1]//font[1]").text.split("\n")[0].strip,   # 1
