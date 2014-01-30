@@ -25,7 +25,10 @@ gem 'yaml_db', github: 'jetthoughts/yaml_db', ref: 'fb4b6bd7e12de3cffa93e0a298a1
 
 # Front-end Gems
 gem 'sass-rails', '~> 4.0.0'
-
+gem 'bootstrap-sass'
+group :development do
+  gem 'rails_layout'
+end
 # Misc. Gems
 gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks'

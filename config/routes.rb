@@ -1,14 +1,18 @@
 FinalProject::Application.routes.draw do
+  get "sections/show"
+  get "sections/index"
+  get "static_pages/home"
+  get "students/index"
+  get 'students/:id', to: 'students#show'
+  get "students/", to: 'students#index'
   
   devise_for :users, email_regexp: '^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@notreal.com$'
-
-  root 'test_pages#home'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'static_pages#home'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
