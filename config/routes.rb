@@ -1,4 +1,9 @@
 FinalProject::Application.routes.draw do
+  
+  devise_for :users, email_regexp: '^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@notreal.com$'
+
+  root 'test_pages#home'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

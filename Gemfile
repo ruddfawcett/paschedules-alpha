@@ -13,9 +13,10 @@ group :development do
   gem 'watir-webdriver', '~> 0.6.4'
 end
 
-# Testing Wooooooo
-group :test do
+# Testing Gems
+group :development, :test do
   gem "rspec-rails", "~> 2.14.1"
+  gem "capybara", "~> 2.2.1"
 end
 
 # Database Gems
@@ -32,6 +33,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'annotate', '~> 2.6.1'
+gem "devise", "~> 3.2.2"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
