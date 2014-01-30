@@ -1,0 +1,49 @@
+// Place all the styles related to the Students controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.schedule {
+    background-color: rgba(70, 70, 70, 0.1);
+    text-align: center;
+    font-size: 8pt;
+    
+}
+.per1 td {
+    background-color: rgba(#1E90FF, 0.4);
+}
+
+.per2 td {
+    background: rgba(#DEADBA, 0.4);
+}
+
+.per3 td {
+    background: rgba(#BABABA, 0.4);
+}
+
+.per4 td {
+    background: rgba(#FABEAD, 0.4);
+}
+
+.per5 td {
+    background: rgba(#7FFF00, 0.4);
+}
+
+.per6 td {
+    background: rgba(#DEADBE, 0.4);
+}
+
+.per7 td {
+    background: rgba(#DEADBE, 0.4);
+}
+
+.per9 td {
+    background: rgba(#ABDCAD, 0.4);
+}
+
+.fre td {
+    background: rgba(#BABABA, 0.5);
+}
+
+.auxiliary td {
+    background: rgba(#FFFFFF, 0.4);
+}

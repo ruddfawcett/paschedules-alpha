@@ -1,0 +1,174 @@
+<div class="container">
+  <h1><%= @student.full_name %></h1>
+  <div class="col-md-6">
+    <div class="schedule">
+      <table>
+        <tr>
+          <td>
+            <table class="table">
+              <tr class="per1">
+                <td>
+                  <div style="height:60px; overflow:hidden">
+                    <p>
+                      8:00-8:45<br>
+                      <%= @schedule[0][0] %><br> 
+                      <%= @schedule[0][1] %><br>
+                      <%= @schedule[0][2] %>
+                    </p>
+                  </div>
+                </td>
+              </tr>
+              <tr class="per2">
+                <td>
+                  <div style="height: 60px; overflow: hidden">
+                    <p>
+                      8:55-9:40<br>
+                      <%= @schedule[1][0] %><br>
+                      <%= @schedule[1][1] %><br>
+                      <%= @schedule[1][2] %>
+                    </p>
+                  </div>
+                </td>
+              </tr>
+              <tr class="auxiliary">
+                <td>
+                  <div style="height:40px; overflow:hidden">
+                    <p>
+                      9:45-10:15<br>
+                      Conference
+                    </p>
+                  </div>
+                </td>
+              </tr>
+              <tr class="per3">
+                <td>
+                  <div style="height: 60px; overflow: hidden">
+                    <p>
+                      10:20-11:05<br>
+                      <%= @schedule[2][0] %><br>
+                      <%= @schedule[2][1] %><br>
+                      <%= @schedule[2][2] %>
+                    </p>
+                  </div>
+                </td>
+              </tr>
+              <tr class="per4">
+                <td>
+                  <div style="height: 60px; overflow: hidden">
+                    <p>
+                      11:15-12:00<br>
+                      <%= @schedule[3][0] %><br>
+                      <%= @schedule[3][1] %><br>
+                      <%= @schedule[3][2] %>
+                    </p>
+                  </div>
+                </td>
+              </tr>
+              <tr class="per5">
+                <td>
+                  <div style="height: 60px; overflow: hidden">
+                    <p>
+                      12:10-12:55<br>
+                      <%= @schedule[4][0] %><br>
+                      <%= @schedule[4][1] %><br>
+                      <%= @schedule[4][2] %>
+                    </p>
+                  </div>
+                </td>
+              </tr>
+              <tr class="per6">
+                <td>
+                  <div style="height: 60px; overflow: hidden">
+                    <p>
+                      1:05-1:50<br>
+                      <%= @schedule[5][0] %><br>
+                      <%= @schedule[5][1] %><br>
+                      <%= @schedule[5][2] %>
+                    </p>
+                  </div>
+                </td>
+              </tr>
+              <tr class="per7">
+                <td>
+                  <div style="height: 60px; overflow: hidden">
+                    <p>
+                      2:00-2:45<br>
+                      <%= @schedule[6][0] %><br>
+                      <%= @schedule[6][1] %><br>
+                      <%= @schedule[6][2] %>
+                    </p>
+                  </div>
+                </td>
+              </tr>
+              <tr class="per9">
+                <td>
+                  <div style="height: 60px; overflow: hidden">
+                    <p>
+                      4:50-5:35<br>
+                      <%= @schedule[7][0] %><br>
+                      <%= @schedule[7][1] %><br>
+                      <%= @schedule[7][2] %>
+                    </p>
+                  </div>
+                </td>
+              </tr>
+	      <tr class="per9">
+                <td>
+                  <div style="height: 40px; overflow: hidden">
+                    <p>
+                      5:35-6:05<br>
+                      <%= @schedule[8][0] %><br>
+                      <%= @schedule[8][1] %><br>
+                      <%= @schedule[8][2] %>
+                    </p>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            <table class="table">
+	      <%= render "schBox", period: "per1", time: "8:00-8:45", arr: @schedule[9] %>
+	      <%= render "schBox", period: "per2", time: "8:00-8:45", arr: @schedule[10] %>
+	      <tr class="auxiliary">
+                <td>
+                  <div style="height:40px; overflow:hidden">
+                    <p>
+                      9:45-10:15<br>
+                      Conference
+                    </p>
+                  </div>
+                </td>
+              </tr>
+	      <%= render "schBox", period: "per3", time: "8:00-8:45", arr: @schedule[11] %>
+	      <%= render "schBox", period: "per4", time: "8:00-8:45", arr: @schedule[12] %>
+	      <%= render "schBox", period: "per5", time: "8:00-8:45", arr: @schedule[13] %>
+	      <%= render "schBox", period: "per6", time: "8:00-8:45", arr: @schedule[14] %>
+	      <%= render "schBox", period: "per7", time: "8:00-8:45", arr: @schedule[15] %>
+	      <%= render "schBox", period: "per9", time: "8:00-8:45", arr: @schedule[16] %>
+	      <%= render "schBox", period: "per9", time: "8:00-8:45", arr: @schedule[17] %>
+            </table>
+          </td>
+          <td>
+            <table class="table">
+
+            </table>
+	  </td>
+	  <td>
+            <table class="table">
+
+            </table>
+          </td>
+          <td>
+            <table class="table">
+
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-6">
+    These are ugly colors but thats really easy to change.  Haven't done table size formatting yet either.  Also they're transparent so they stack if we're going for that
+  </div>
+</div>

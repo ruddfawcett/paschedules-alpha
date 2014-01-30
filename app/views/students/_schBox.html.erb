@@ -1,0 +1,30 @@
+<% if arr[3] == "SKIP" %>
+<% elsif arr[3] != nil %>
+<tr class=<%= period %>>
+  <td>
+    <% if arr[3] == "DOUBLE" %>
+    <div style="height: 100px; overflow: hidden">
+      <% elsif arr[3] == "SUPERDOUBLE" %>
+      <div style="height: 120px; overflow: hidden">
+	<% elsif arr[3] == "NORMAL" %>
+      <div style="height: 60px; overflow: hidden">
+        <% end %>
+	<p>
+          <%= time %><br>
+          <%= arr[0] %><br>
+          <%= arr[1] %><br>
+          <%= arr[2] %>
+	</p>
+      </div>
+  </td>
+</tr>
+<% else %>
+<tr class="free">
+  <td>
+    <div style="height: 40px; overflow: hidden">
+      <p><br></p>
+    </div>
+  </td>
+</tr>
+<% end %>
+
