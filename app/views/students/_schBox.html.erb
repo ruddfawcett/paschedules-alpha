@@ -1,28 +1,33 @@
+<% require 'pp'; pp arr %>
 <% if arr[3] == "SKIP" %>
 <% elsif arr[3] != nil %>
-<tr class=<%= period %>>
+<tr class=<%= "per" + arr[5].gsub(/^(\d).*/, '\1')%>>
   <td>
-    <% if arr[3] == "DOUBLE" %>
+    <% if arr[3].match(/^DOUBLE/) %>
     <div style="height: 100px; overflow: hidden">
-      <% elsif arr[3] == "SUPERDOUBLE" %>
-      <div style="height: 120px; overflow: hidden">
-	<% elsif arr[3] == "NORMAL" %>
+      <% elsif arr[3].match(/SUPERDOUBLE/) %>
+      <div style="height: 136px; overflow: hidden"> <!-- 136px...thats a bug, but 120px doesn't line up for some reason -->
+	<% elsif arr[3].match(/NORMAL/) %>
       <div style="height: 60px; overflow: hidden">
         <% end %>
+	<span style="vertical-align:top; margin-left:0"><%= arr[5] %></span>
 	<p>
-          <%= time %><br>
+          <%= arr[4] %><br>
+	  <% if arr[3].match(/FREE/) %>
+	  <% else %>
           <%= arr[0] %><br>
           <%= arr[1] %><br>
           <%= arr[2] %>
+	  <% end %>
 	</p>
       </div>
   </td>
 </tr>
-<% else %>
+<% elsif arr[3] == "FREESHORT" %>
 <tr class="free">
   <td>
     <div style="height: 40px; overflow: hidden">
-      <p><br></p>
+      <p><%= arr[4] %><br></p>
     </div>
   </td>
 </tr>
