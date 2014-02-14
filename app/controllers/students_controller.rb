@@ -48,8 +48,8 @@ class StudentsController < ApplicationController
       end
     end
     for i in (0..6).to_a + (9..15).to_a + (34..40).to_a # Periods without extendeds
-      if @schedule[i] == @schedule[i + 1] && @schedule[i + 1] != " " # Superdouble, don't count
-        @schedule[i][3] = "SUPERDOUBLE"                              # two free's in a row though
+      if @schedule[i] == @schedule[i + 1] && @schedule[i + 1][0] != " " # Superdouble, don't count
+        @schedule[i][3] = "SUPERDOUBLE"                                 # two free's in a row though
         @schedule[i][4] = TIMES[i][0] + "-" + TIMES[i + 1][1]
         @schedule[i][5] = TIMES[i][2] + "-" + TIMES[i + 1][2]
         @schedule[i + 1][3] = "SKIP"

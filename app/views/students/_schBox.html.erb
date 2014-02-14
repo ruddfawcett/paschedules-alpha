@@ -1,16 +1,15 @@
-<% require 'pp'; pp arr %>
 <% if arr[3] == "SKIP" %>
 <% elsif arr[3] != nil %>
-<tr class=<%= "per" + arr[5].gsub(/^(\d).*/, '\1')%>>
+<tr class=<%= css_per_class(arr) %>>
   <td>
     <% if arr[3].match(/^DOUBLE/) %>
     <div style="height: 100px; overflow: hidden">
       <% elsif arr[3].match(/SUPERDOUBLE/) %>
-      <div style="height: 136px; overflow: hidden"> <!-- 136px...thats a bug, but 120px doesn't line up for some reason -->
+      <div style="height: 137px; overflow: hidden"> <!-- 137px...thats a bug, but 120px doesn't line up for some reason -->
 	<% elsif arr[3].match(/NORMAL/) %>
       <div style="height: 60px; overflow: hidden">
         <% end %>
-	<span style="vertical-align:top; margin-left:0"><%= arr[5] %></span>
+	<div style="text-align:left; font-size: 10px"><%= arr[5] %></div>
 	<p>
           <%= arr[4] %><br>
 	  <% if arr[3].match(/FREE/) %>

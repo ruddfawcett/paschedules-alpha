@@ -2,9 +2,9 @@
   <h1><%= @student.full_name %></h1>
   <div class="col-md-6">
     <div class="schedule">
-      <table>
+      <table class="table-condensed; border:none">
         <tr>
-          <td>
+          <td style="vertical-align:top">
 	    <table class="table">
 	      <%= render "schBox", arr: @schedule[0] %>
 	      <%= render "schBox", arr: @schedule[1] %>
@@ -23,11 +23,18 @@
 	      <%= render "schBox", arr: @schedule[4] %>
 	      <%= render "schBox", arr: @schedule[5] %>
 	      <%= render "schBox", arr: @schedule[6] %>
+	      <tr class="auxiliary">
+                <td>
+                  <div style="height:15px; overflow:hidden">
+                    Sports etc.
+                  </div>
+                </td>
+              </tr>
 	      <%= render "schBox", arr: @schedule[7] %>
 	      <%= render "schBox", arr: @schedule[8] %>
             </table>
           </td>
-          <td>
+          <td style="vertical-align:top">
             <table class="table">
 	      <%= render "schBox", arr: @schedule[9] %>
 	      <%= render "schBox", arr: @schedule[10] %>
@@ -46,11 +53,18 @@
 	      <%= render "schBox", arr: @schedule[13] %>
 	      <%= render "schBox", arr: @schedule[14] %>
 	      <%= render "schBox", arr: @schedule[15] %>
+	      <tr class="auxiliary">
+                <td>
+                  <div style="height:15px; overflow:hidden">
+                    Sports etc.
+                  </div>
+                </td>
+              </tr>
 	      <%= render "schBox", arr: @schedule[16] %>
 	      <%= render "schBox", arr: @schedule[17] %>
             </table>
           </td>
-          <td>
+          <td style="vertical-align:top">
             <table class="table">
 	      <%= render "schBox", arr: @schedule[18] %>
 	      <%= render "schBox", arr: @schedule[19] %>
@@ -70,7 +84,7 @@
 	      <%= render "schBox", arr: @schedule[23] %>
             </table>
 	  </td>
-	  <td>
+	  <td style="vertical-align:top">
             <table class="table">
 	      <%= render "schBox", arr: @schedule[24] %>
 	      <%= render "schBox", arr: @schedule[25] %>
@@ -90,11 +104,18 @@
 	      <%= render "schBox", arr: @schedule[29] %>
 	      <%= render "schBox", arr: @schedule[30] %>
 	      <%= render "schBox", arr: @schedule[31] %>
+	      <tr class="auxiliary">
+                <td>
+                  <div style="height:50px; overflow:hidden">
+                    Sports etc.
+                  </div>
+                </td>
+              </tr>
 	      <%= render "schBox", arr: @schedule[32] %>
 	      <%= render "schBox", arr: @schedule[33] %>
             </table>
           </td>
-          <td>
+          <td style="vertical-align:top">
             <table class="table">
 	      <%= render "schBox", arr: @schedule[34] %>
 	      <%= render "schBox", arr: @schedule[35] %>
@@ -113,6 +134,13 @@
 	      <%= render "schBox", arr: @schedule[38] %>
 	      <%= render "schBox", arr: @schedule[39] %>
 	      <%= render "schBox", arr: @schedule[40] %>
+	      <tr class="auxiliary">
+                <td>
+                  <div style="height:15px; overflow:hidden">
+                    Sports etc.
+                  </div>
+                </td>
+              </tr>
 	      <%= render "schBox", arr: @schedule[41] %>
 	      <%= render "schBox", arr: @schedule[42] %>
             </table>
@@ -122,6 +150,6 @@
     </div>
   </div>
   <div class="col-md-6">
-    These are ugly colors but thats really easy to change.  Haven't done table size formatting yet either.  Also they're transparent so they stack if we're going for that
+    These are ugly colors but thats really easy to change.  Also they're transparent so they stack if we're going for that
   </div>
 </div>
