@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(version: 20140129195024) do
     t.string   "last_name"
     t.string   "full_name"
     t.string   "pref_name"
-    t.string   "type"           # For STI
-    t.string   "pa_id"          # This is the student ID number, not a reference to another model
+    t.string   "type"
+    t.string   "pa_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cluster"
