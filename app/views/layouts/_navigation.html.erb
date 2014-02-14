@@ -14,6 +14,12 @@
       <ul class="nav navbar-nav">
         <%= render 'layouts/navigation_links' %>
       </ul>
+      <ul class="nav navbar-nav navbar-right">
+	<% if user_signed_in? %>
+	  <li><p class="navbar-text navbar-right">Signed in as <%= current_user.email.split('@')[0] %></p></li>
+          <li><%= link_to "Sign out", destroy_user_session_path, method: "delete" %></li>
+	<% end %>
+      </ul>
     </div>
   </div>
 </nav>

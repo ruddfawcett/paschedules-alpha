@@ -1,10 +1,14 @@
 FinalProject::Application.routes.draw do
-  get "sections/show"
-  get "sections/index"
+
+  resources :sections, only: [:show, :index]
+  resources :students, only: [:show, :index]
+
+#  get "sections/show"
+#  get "sections/index"
   get "static_pages/home"
-  get "students/index"
-  get 'students/:id', to: 'students#show'
-  get "students/", to: 'students#index'
+#  get "students/index"
+#  get 'students/:id', to: 'students#show'
+#  get "students/", to: 'students#index'
   
   devise_for :users, email_regexp: '^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@notreal.com$'
 
