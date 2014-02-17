@@ -1,17 +1,24 @@
-<h1>Welcome</h1>
+<% if !user_signed_in? %>
+  <h1>Welcome</h1>
 
-<p>
-  Welcome to PA Schedule Search! If you have not done so already, please create an account below. Otherwise, sign in to view your schedule.
-</p>
-<br>
-<center>
-  <div class="row">
-    <div class="col-md-6">
-      <%= link_to "Sign up!", new_user_registration_path, class: "btn btn-lg btn-primary" %>
+  <p>
+    Welcome to PA Schedule Search! If you have not done so already, please create an account below. Otherwise, sign in to view your schedule.
+  </p>
+  <br>
+  <center>
+    <div class="row">
+      <div class="col-md-6">
+	<%= link_to "Sign up!", new_user_registration_path, class: "btn btn-lg btn-primary" %>
+      </div>
+      <div class="col-md-6">
+	<%= link_to "Sign in!", new_user_session_path, class: "btn btn-lg btn-primary" %>
+      </div>
     </div>
-    <div class="col-md-6">
-      <%= link_to "Sign in!", new_user_session_path, class: "btn btn-lg btn-primary" %>
-    </div>
-  </div>
-</center>
+  </center>
+<% else %>
+  <h1>Welcome Faculty & Staff!</h1>
 
+  <p>
+    Unfortunately, this program does not yet support searching for faculty schedules. However, you can search for students' schedules.
+  </p>
+<% end %>

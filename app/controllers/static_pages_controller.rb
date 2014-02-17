@@ -3,7 +3,10 @@ class StaticPagesController < ApplicationController
 
   def home
     if user_signed_in?
-      redirect_to Student.find_by(email: current_user.email)
+      student = Student.find_by(email: current_user.email)
+      if student
+        redirect_to student
+      end
     else
       render layout: "devise"
     end

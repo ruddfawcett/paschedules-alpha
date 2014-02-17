@@ -8,7 +8,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <%= link_to "My schedule", Student.find_by(email: current_user.email), class: 'navbar-brand' %>
+      <% if Student.find_by(email: current_user.email) %>
+        <%= link_to "My schedule", Student.find_by(email: current_user.email), class: 'navbar-brand' %>
+      <% end %>
       <%= form_tag students_path, method: "get", class: "navbar-form navbar-left navbar-search" do %>
       <!-- May God help me for the code below -->
         <div class="input-group"><%= text_field_tag :search, nil, placeholder: "Search", class: "form-control" %><span class="input-group-btn"><button class="btn btn-default" name="commit" type="submit"><span class="glyphicon glyphicon-search"></span></button></span></div>
