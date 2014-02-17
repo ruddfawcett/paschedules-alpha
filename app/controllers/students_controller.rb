@@ -1,7 +1,7 @@
 class StudentsController < ApplicationController
   def index
   end
-
+  
   def show
     id = params[:id]
     @student = nil # Do you need this? In java/C you would...
@@ -99,5 +99,9 @@ class StudentsController < ApplicationController
     #     @schedule[i][5] = TIMES[i][2]
     #   end
       #  end=
+  end
+
+  def search
+    
   end
 end

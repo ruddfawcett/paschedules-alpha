@@ -10,8 +10,8 @@ FinalProject::Application.routes.draw do
 #  get 'students/:id', to: 'students#show'
 #  get "students/", to: 'students#index'
   
-  devise_for :users, email_regexp: '^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@notreal.com$'
-
+  devise_for :users
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,1 +1,5 @@
+<h1><%= @section.name %></h1>
+<% @section.students.each do |s| %>
+<p><%= render s %></p>
+<% end %>
 
