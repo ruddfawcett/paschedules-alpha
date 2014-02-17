@@ -14,7 +14,8 @@
           <%= arr[4] %><br>
 	  <% if arr[3].match(/FREE/) %>
 	  <% else %>
-          <%= arr[0] %><br>
+	  <% sec = Section.find_by(name: arr[0]) %>
+          <%= link_to(arr[0], sec) %><br>
           <%= arr[1] %><br>
           <%= arr[2] %>
 	  <% end %>

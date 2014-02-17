@@ -1,2 +1,4 @@
-<h1>Sections#show</h1>
-<p>Find me in app/views/sections/show.html.erb</p>
+<h1><%= @section.name %></h1>
+<% @section.students.each do |s| %>
+<p><%= s.full_name %> - <%= s.grad_year %></p>
+<% end %>
