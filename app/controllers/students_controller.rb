@@ -26,7 +26,6 @@ class StudentsController < ApplicationController
         @schedule[i] = [" ", " ", " "]
       end
     end
-    i = 0
     
     for i in EXTENDEDS.keys                      # First, go through extended periods
       if @schedule[i] == @schedule[EXTENDEDS[i]] # If a used double period or double free
@@ -37,7 +36,7 @@ class StudentsController < ApplicationController
         else
           @schedule[i][3] = "DOUBLE"
         end
-        @schedule[i][5] = TIMES[i][2]
+        @schedule[i][5] = TIMES[i][2] + "-" + TIMES[EXTENDEDS[i]][2]
       else                      # If its a single period with extended free
         @schedule[i][3] = "NORMAL"
         @schedule[EXTENDEDS[i]][3] = "FREESHORT"
