@@ -140,7 +140,6 @@ namespace :schedules do
   desc "Parse the Schedules. Parse IDs BEFORE this!"
   task parseSchedules: :environment do
     begin
-      logError "This is a test"
       # require 'pp'
       browser = Watir::Browser.new
 
