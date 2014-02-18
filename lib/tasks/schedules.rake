@@ -47,7 +47,7 @@ namespace :schedules do
       frame = browser.frame.frames[1]
       flag = browser.frame.frames[1].buttons[2].visible?
       flag = frame.buttons[2].visible?                  
-      while flag do
+      while flag do             # Not very DRY, basically same as above
         doc = Nokogiri::HTML(frame.html)
         #puts doc.css('table.x-grid3-row-table').length
         doc.css('table.x-grid3-row-table').each do |t|
@@ -101,14 +101,15 @@ namespace :schedules do
         browser.button.click
         browser.text =~ /(\d+) matches found/
         if $1 == "0"
-          puts "ERROR: No Match for student #{stu.full_name}"
+          logError "ERROR: No Match for student #{stu.full_name}"
           next
         elsif $1 == "1"
           browser.link(text: browser.tables[1].to_a.last[1]).href =~ /stuid=(\d{7})/
           stu.pa_id = $1
           stu.save
         else                 
-          puts "Multi Match with student #{stu.full_name}"
+          puts "Multi Match with person #{stu.full_name}"
+          Rails.logger.warn "Multi Match with person #{stu.full_name}"
           browser.tables[1].to_a.last[1].split("\n").each do |s| # Visit each student's schedule, and
             next unless s.include?("Student")                    # check email addresses to assign the
             browser.link(text: s).click                          # correct ID to a student
@@ -125,7 +126,7 @@ namespace :schedules do
         end
       end
     ensure
-      #browser.close #Commented out for debugging purposes
+      browser.close # No longer #Commented out for debugging purposes
     end
   end
 
@@ -139,6 +140,7 @@ namespace :schedules do
   desc "Parse the Schedules. Parse IDs BEFORE this!"
   task parseSchedules: :environment do
     begin
+      logError "This is a test"
       # require 'pp'
       browser = Watir::Browser.new
 
@@ -167,13 +169,11 @@ namespace :schedules do
           end
           resultsArray << tmpArr
         end
-        require 'pp'
-
         #browser.tables[0].to_a.each_with_index do |arr, idx| # This tables function is a bit slow...
         resultsArray.each do |arr|
           next if arr[0].nil? || arr[0].empty? || arr[0].match(/^ATH-/) || arr[0].match(/WD-/) || # Ignore music lessons, work duty,
-            arr[0].match(/MUSC-909/) || arr[0].match(/MUSC-910/) # || idx < 3        # and athletics
-          pp arr
+            arr[0].match(/MUSC-909/) || arr[0].match(/MUSC-910/)                                  # and athletics
+          # pp arr
           secName = arr[0].strip
           secTitle = arr[1].strip
           teacherName = arr[2].strip
@@ -192,7 +192,7 @@ namespace :schedules do
             teacher = Teacher.where(last_name: teacherName.split('.').last.strip)
 
             if teacher.length == 0
-              Rails.logger.error "ERROR: No teachers for section #{secName} for student #{stu.full_name}"
+              logError "ERROR: No teachers for section #{secName} for student #{stu.full_name}"
             elsif teacher.length == 1
               finalTeacher = teacher.first
             else
@@ -207,7 +207,7 @@ namespace :schedules do
           end
           #pp finalTeacher
           if finalTeacher.nil?
-            Rails.logger.error "ERROR: Nil Teacher for section #{secName} for student #{stu.full_name}"
+            logError "ERROR: Nil Teacher for section #{secName} for student #{stu.full_name}"
           end
           # Commented out because I wrote this before knowing about first_or_create
           # course = Course.where(name: courseName, teacher_id: finalTeacher.id)
@@ -246,8 +246,8 @@ namespace :schedules do
         next unless boolvar
         browser.link(text: "Schedule").click
         
-        # Watir's tables[]... function is really easy to use, but its horrendously slow
-        # The following code takes adds about 4 seconds to runtime, which for 1200 students is 
+        # Watir's tables[]... function is really easy to use, but it's horrendously slow
+        # The following code adds about 5 seconds to runtime, which for 1200 students is 
         # unacceptable.  I may re-write this in Nokogiri if I can figure out how to. DONE: Nokogiri below
         
         # resultsHash = {         # Hooray for Emacs' multiple-cursors mode and iy-go-to-char...
@@ -363,7 +363,7 @@ namespace :schedules do
         }
         newHash = {}
         resultsHash.each do |period, course|
-          next if course.empty? || course.match(/^ATH-/)
+          next if course.empty? || course.match(/^ATH-/) # Because FIT sometimes ends up in people's schedules
           if newHash[course].nil?
             newHash[course] = period
           else
@@ -373,16 +373,21 @@ namespace :schedules do
         newHash.each do |course, times|
           section = stu.sections.where('name LIKE ?', "%#{course}%").take
           if section.nil?
-            Rails.logger.error "ERROR: Can't find section #{course}"
+            logError "ERROR: Can't find section #{course}"
           end
-          next unless section.times.nil?
+          next unless section.times.nil? # If we have the time info from another student, dont rewrite it
           section.times = times
           section.save
         end
       end
 
     ensure
-      # =>browser.close #Commented out for debugging purposes
+      browser.close # No longer #Commented out for debugging purposes
     end
   end
+end
+
+def logError(str)
+  Rails.logger.error str
+  puts str
 end
