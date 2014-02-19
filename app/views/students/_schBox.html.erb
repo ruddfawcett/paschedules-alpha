@@ -1,4 +1,13 @@
 <% if arr[3] == "SKIP" %>
+<% elsif arr[3] == "FREESHORT" %>
+<tr class="free">
+  <td>
+    <div style="height: 40px; overflow: hidden">
+      <div style="text-align:left; font-size: 10px"><%= arr[5] %></div>
+      <p><%= arr[4] %><br></p>
+    </div>
+  </td>
+</tr>
 <% elsif arr[3] != nil %>
 <tr class=<%= css_per_class(arr) %>>
   <td>
@@ -8,6 +17,7 @@
       <div style="height: 137px; overflow: hidden"> <!-- 137px...thats a bug, but 120px doesn't line up for some reason -->
 	<% elsif arr[3].match(/NORMAL/) %>
       <div style="height: 60px; overflow: hidden">
+	<% else puts "ERROR: No size for " + arr[3] %>
         <% end %>
 	<div style="text-align:left; font-size: 10px"><%= arr[5] %></div>
 	<p>
@@ -25,14 +35,6 @@
 	  <% end %>
 	</p>
       </div>
-  </td>
-</tr>
-<% elsif arr[3] == "FREESHORT" %>
-<tr class="free">
-  <td>
-    <div style="height: 40px; overflow: hidden">
-      <p><%= arr[4] %><br></p>
-    </div>
   </td>
 </tr>
 <% end %>
