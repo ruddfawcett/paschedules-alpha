@@ -1,4 +1,4 @@
-<h1><%= @section.name %></h1>
+<h1><%= link_to @section.name.gsub(/(.+)-\d+/, '\1'), @section.course %>-<%= @section.name.gsub(/.+-(\d+)/, '\1') %></h1>
 <% @section.students.each do |s| %>
-<p><%= s.full_name %> - <%= s.grad_year %></p>
+<p><%= render s %></p>
 <% end %>

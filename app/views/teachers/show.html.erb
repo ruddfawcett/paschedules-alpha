@@ -1,0 +1,5 @@
+<h1><%= @teacher.full_name %></h1>
+<p>Courses Taught</p>
+<% @teacher.courses.each do |c| %>
+<p><%= link_to c.name, c %></p>
+<% end %>
