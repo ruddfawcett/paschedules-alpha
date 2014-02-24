@@ -149,5 +149,9 @@
   </div>
 </div>
 <div class="col-md-6" id="sectionBox">
+  <% if current_user.email == @student.email %>
   <h2>Click a class to see who's in it.</h2>
+  <% else %>
+  
+  <% end %>
 </div>

@@ -2,16 +2,17 @@ FinalProject::Application.routes.draw do
 
   resources :sections, only: [:show, :index]
   resources :students, only: [:show, :index]
-
-#  get "sections/show"
-#  get "sections/index"
+  
+  #  get "sections/show"
+  #  get "sections/index"
   get "static_pages/home"
-#  get "students/index"
-#  get 'students/:id', to: 'students#show'
-#  get "students/", to: 'students#index'
-  
+  get "static_pages/search"
+  #  get "students/index"
+  #  get 'students/:id', to: 'students#show'
+  #  get "students/", to: 'students#index'
+
   devise_for :users
-  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
