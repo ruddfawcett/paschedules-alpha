@@ -147,6 +147,10 @@
       </tr>
     </table>
   </div>
+  <h3>Other Commitments:</h3>
+  <% @student.commitments.each do |c| %>
+ <p> <%= link_to(commitment_string(c), c, remote: true) %></p>
+  <% end %>
 </div>
 <div class="col-md-6" id="sectionBox">
   <% if current_user.email == @student.email %>

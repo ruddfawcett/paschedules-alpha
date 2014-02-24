@@ -20,6 +20,9 @@ class Student < Person
   has_many :students_sections, dependent: :destroy
   has_many :sections, through: :students_sections
 
+  has_many :students_commitments, dependent: :destroy
+  has_many :commitments, through: :students_commitments
+  
   #Made this before knowing about the << functionality
   #def link_section(sec)
   #  ss = StudentsSections.new

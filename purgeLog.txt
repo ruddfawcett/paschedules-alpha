@@ -1,0 +1,23 @@
+[02/24/14 - 00:18:55] Removing Reid T. Bradt from database
+[02/24/14 - 00:18:55] Removing Katherine C. Carson from database
+[02/24/14 - 00:18:55] Removing Katherine M. Flynn from database
+[02/24/14 - 00:18:55] Removing Victoria R. Grice from database
+[02/24/14 - 00:18:55] Removing Evelyn M. Gutierrez from database
+[02/24/14 - 00:18:55] Removing Veronica L. Hildenbrand from database
+[02/24/14 - 00:18:55] Removing Lucia M. Iannone from database
+[02/24/14 - 00:18:55] Removing Cameron A. James from database
+[02/24/14 - 00:18:55] Removing Dale M. Lattanzio from database
+[02/24/14 - 00:18:55] Removing Ji Hyun Lee from database
+[02/24/14 - 00:18:56] Removing Olivia C. Legaspi from database
+[02/24/14 - 00:18:56] Removing Sophie E. McIntosh from database
+[02/24/14 - 00:18:56] Removing Sara Merker from database
+[02/24/14 - 00:18:56] Removing Cassandra K. Naranjo from database
+[02/24/14 - 00:18:56] Removing Victoria I. Naranjo from database
+[02/24/14 - 00:18:56] Removing Matilda Nickell from database
+[02/24/14 - 00:18:56] Removing Christine P. Rajarigam from database
+[02/24/14 - 00:18:56] Removing Isabel N. Saad from database
+[02/24/14 - 00:18:56] Removing Anoush G. Shehadeh from database
+[02/24/14 - 00:18:56] Removing Daniel G. Shleifer from database
+[02/24/14 - 00:18:56] Removing Francesca I. Siracusa from database
+[02/24/14 - 00:18:56] Removing Benjamin B. Wiegandt from database
+[02/24/14 - 00:18:56] Removing Santiago L. Rodriguez from database
