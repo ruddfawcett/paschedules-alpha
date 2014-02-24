@@ -2,7 +2,7 @@ FinalProject::Application.routes.draw do
 
   resources :sections, only: [:show, :index]
   resources :students, only: [:show, :index]
-  
+  resources :commitments, only: [:show]
   #  get "sections/show"
   #  get "sections/index"
   get "static_pages/home"

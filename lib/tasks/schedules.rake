@@ -1,9 +1,10 @@
 namespace :schedules do
   USERNAME = 'jherman'          # Maybe read from a file in the next version so I don't have
-  PASSWORD = '******'           # to redact my password before pushing to git every time?
+  PASSWORD = '******'           # to redact my password before pushing to git every time
   desc "Parse the PA Online Directory"
   task parseDirectory: :environment do
     begin
+      logInfo "Starting to parse Directory..."
       browser = Watir::Browser.new
 
       browser.goto('https://portal.vpn.andover.edu/Login/Login')
@@ -15,7 +16,7 @@ namespace :schedules do
       frame = browser.frame.frame
       flag = frame.buttons[2].visible?
       while flag do
-        # Watir-webdriver's table parsing abilities are very user-friendly, 
+        # Watir-webdriver's table parsing abilities are very user-friendly,
         # but too slow for the amount of data we have. Nokogiri is super fast
         doc = Nokogiri::HTML(frame.html)
         # puts doc.css('table.x-grid3-row-table').length
@@ -35,18 +36,20 @@ namespace :schedules do
           end
           person = Teacher.new(full_name: fullName, last_name: lastName,
                                first_name: firstName, email: email)
-          person.pref_name = prefName unless prefName.match(/ +/) # The way the directory is formatted, blank 
+          person.pref_name = prefName unless prefName.match(/ +/) # The way the directory is formatted, blank
           person.save                                             # fields consist of just spaces
         end
         flag = frame.buttons[2].visible?
-        frame.buttons[2].click if flag
-        sleep 2 # Waiting a specified amount of time is really ugly; TODO: Find a better way
+        if flag
+          frame.buttons[2].click
+          Watir::Wait.until { !frame.html.gsub(/\[.+\]/, '').include? Teacher.last.email } # Because the page uses AJAX/something similar
+        end                    
       end
-      browser.frame.link(text: 'Students').click 
-      sleep 3                                    
+      browser.frame.link(text: 'Students').click
+      Watir::Wait.until { browser.frame.frames[1].html.include? "Grad Year" }
       frame = browser.frame.frames[1]
       flag = browser.frame.frames[1].buttons[2].visible?
-      flag = frame.buttons[2].visible?                  
+      flag = frame.buttons[2].visible?
       while flag do             # Not very DRY, basically same as above
         doc = Nokogiri::HTML(frame.html)
         #puts doc.css('table.x-grid3-row-table').length
@@ -60,7 +63,7 @@ namespace :schedules do
           firstName = $2
           lastName = $1
           # middle = ""
-          if firstName =~ /(.+) (\w)$/ 
+          if firstName =~ /(.+) (\w)$/
             firstName = $1
             fullName = "#{ firstName } #{$2}. #{ lastName }"
           else
@@ -73,9 +76,12 @@ namespace :schedules do
           person.save
         end
         flag = frame.buttons[2].visible?
-        frame.buttons[2].click if flag
-        sleep 2
+        if flag
+          frame.buttons[2].click
+          Watir::Wait.until { !frame.html.gsub(/\[.+\]/, '').include? Student.last.email }
+        end
       end
+      logInfo "Directory parsing completed successfully"
     ensure
       browser.close
     end
@@ -83,6 +89,7 @@ namespace :schedules do
   desc "Parse the IDs. Parse directory BEFORE this!"
   task parseIds: :environment do
     begin
+      logInfo "Starting to parse IDs..."
       browser = Watir::Browser.new
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
@@ -101,15 +108,14 @@ namespace :schedules do
         browser.button.click
         browser.text =~ /(\d+) matches found/
         if $1 == "0"
-          logError "ERROR: No Match for student #{stu.full_name}"
+          logError "No Match for student #{stu.full_name}"
           next
         elsif $1 == "1"
           browser.link(text: browser.tables[1].to_a.last[1]).href =~ /stuid=(\d{7})/
           stu.pa_id = $1
           stu.save
-        else                 
-          puts "Multi Match with person #{stu.full_name}"
-          Rails.logger.warn "Multi Match with person #{stu.full_name}"
+        else
+          logWarn "Multi Match with person #{stu.full_name}"
           browser.tables[1].to_a.last[1].split("\n").each do |s| # Visit each student's schedule, and
             next unless s.include?("Student")                    # check email addresses to assign the
             browser.link(text: s).click                          # correct ID to a student
@@ -125,6 +131,7 @@ namespace :schedules do
           end
         end
       end
+      logInfo "ID parsing completed successfully."
     ensure
       browser.close # No longer #Commented out for debugging purposes
     end
@@ -140,6 +147,7 @@ namespace :schedules do
   desc "Parse the Schedules. Parse IDs BEFORE this!"
   task parseSchedules: :environment do
     begin
+      logInfo "Starting to parse schedules..."
       # require 'pp'
       browser = Watir::Browser.new
 
@@ -151,90 +159,97 @@ namespace :schedules do
       browser.window(title: 'Blackboard Learn').close
       STUID = browser.url.sub(/.+stuid=([0-9]{7}).+/, '\1') #This will make it wait till the page loads
       Student.all.each do |stu|
+        # puts stu.full_name
         if stu.pa_id.nil?
-          Rails.logger.error "ERROR: No Student ID for #{stu.full_name}"
+          logError "No Student ID for #{stu.full_name}"
           next
         end
         browser.goto("https://colwizlive.andover.edu/cgi-bin/wwiz.exe/wwiz.asp?" \
                      "wwizmstr=WEB.STU.SCHED1.SUBR&stuid=#{stu.pa_id}&uid=#{STUID}&uou=student")
-        
+
         doc = Nokogiri::HTML(browser.html) # Upgraded with Nokogiri
         resultsArray = []
         for i in 4..14
           tmpArr = []
           doc.xpath("//table//tbody//tr[#{i}]").text.split("\n").each do |s|
             s.gsub!(/^[[:space:]]*(.*?)[[:space:]]*$/, '\1') # Because Ruby currently has a bug where string#strip
-            tmparr << s unless s.empty?                      # doesn't support Unicode spaces
+            tmpArr << s unless s.empty? || s == "A"          # doesn't support Unicode spaces
           end
           resultsArray << tmpArr
         end
         #browser.tables[0].to_a.each_with_index do |arr, idx| # This tables function is a bit slow...
         resultsArray.each do |arr|
-          next if arr[0].nil? || arr[0].empty? || arr[0].match(/^ATH-/) || arr[0].match(/WD-/) || # Ignore music lessons, work duty,
-            arr[0].match(/MUSC-909/) || arr[0].match(/MUSC-910/)                                  # and athletics
-          # pp arr
+          next if arr[0].nil? || arr[0].empty? || arr[0].match(/MUSC-909/) || arr[0].match(/MUSC-910/) || arr[0].match(/PROJ/)
           secName = arr[0].strip
           secTitle = arr[1].strip
           teacherName = arr[2].strip
-          time = arr[3].strip
-          room = arr[4].strip
-          courseName = secName.gsub(/(.+)-.*/, '\1')
-          finalTeacher = nil
-          if teacherName == "Department"
-            finalTeacher = Teacher.find_by(full_name: nil)
-          elsif teacherName == "D. Figarella-Zawil" # Inconsistency in PA's databases...imagine that
-            finalTeacher = Teacher.find_by(full_name: "Diana F. Zawil")
-          elsif teacherName == "K. Doba" # YAY MORE INCONSISTENCY!!!!
-            finalTeacher = Teacher.find_by(full_name: "Khiem DoBa")
+          if teacherName.match(/^\d+:\d+/) # If there isn't a teacher and this is a time
+            teacherName = nil
+          end
+          if secName.match(/^ATH/) || secName.match(/^WD/)
+            commitment = Commitment.where(name: secName, title: secTitle, teacher_name: teacherName).first_or_create
+            stu.commitments << commitment
           else
-            teacherName.gsub!(/(.+), .+/, '\1') # Get rid of a suffix (e.g. John Smith, III)
-            teacher = Teacher.where(last_name: teacherName.split('.').last.strip)
-
-            if teacher.length == 0
-              logError "ERROR: No teachers for section #{secName} for student #{stu.full_name}"
-            elsif teacher.length == 1
-              finalTeacher = teacher.first
+            time = arr[3].strip
+            room = arr[4].strip
+            courseName = secName.gsub(/(.+)-.*/, '\1')
+            finalTeacher = nil
+            if teacherName == "Department"
+              finalTeacher = Teacher.find_by(full_name: nil)
+            elsif teacherName == "D. Figarella-Zawil" # Inconsistency in PA's databases...imagine that
+              finalTeacher = Teacher.find_by(full_name: "Diana F. Zawil")
+            elsif teacherName == "K. Doba" # YAY MORE INCONSISTENCY!!!!
+              finalTeacher = Teacher.find_by(full_name: "Khiem DoBa")
             else
-              regex = teacherName.gsub('.', '.*')
-              teacher.each do |t|                 
-                if t.full_name.match(regex)
-                  finalTeacher = t
-                  break
+              teacherName.gsub!(/(.+), .+/, '\1') # Get rid of a suffix (e.g. John Smith, III)
+              teacher = Teacher.where(last_name: teacherName.split('.').last.strip)
+
+              if teacher.length == 0
+                logError "No teachers for section #{secName} for student #{stu.full_name}"
+              elsif teacher.length == 1
+                finalTeacher = teacher.first
+              else
+                regex = teacherName.gsub('.', '.*')
+                teacher.each do |t|
+                  if t.full_name.match(regex)
+                    finalTeacher = t
+                    break
+                  end
                 end
               end
             end
+            #pp finalTeacher
+            if finalTeacher.nil?
+              logError "Nil Teacher for section #{secName} for student #{stu.full_name}"
+            end
+            # Commented out because I wrote this before knowing about first_or_create
+            # course = Course.where(name: courseName, teacher_id: finalTeacher.id)
+            # if course.length == 0
+            #   course = Course.create(name: courseName, teacher_id: finalTeacher.id, title: secTitle)
+            # elsif course.length == 1
+            #   course = course.first
+            # else
+            #   Rails.logger.error "ERROR: Multiple courses with same name: #{courseName}"
+            # end
+            course = Course.where(name: courseName, teacher_id: finalTeacher.id, # Manually supply the ID because
+                                  title: secTitle).first_or_create               # it got screwed up with polymorphism
+            # section = Section.where(course: course, name: secName)
+            # if section.length == 0
+            #   section = Section.create(name: secName, course: course, room: room)
+            # elsif section.length == 1
+            #   section = section.first
+            # else
+            #   Rails.logger.error "ERROR: Multiple sections with same name: #{secName}"
+            # end
+            section = Section.where(name: secName, course: course, room: room).first_or_create
+            stu.sections << section
           end
-          #pp finalTeacher
-          if finalTeacher.nil?
-            logError "ERROR: Nil Teacher for section #{secName} for student #{stu.full_name}"
-          end
-          # Commented out because I wrote this before knowing about first_or_create
-          # course = Course.where(name: courseName, teacher_id: finalTeacher.id)
-          # if course.length == 0
-          #   course = Course.create(name: courseName, teacher_id: finalTeacher.id, title: secTitle)
-          # elsif course.length == 1
-          #   course = course.first
-          # else
-          #   Rails.logger.error "ERROR: Multiple courses with same name: #{courseName}"
-          # end
-          course = Course.where(name: courseName, teacher_id: finalTeacher.id, # Manually supply the ID because
-                                title: secTitle).first_or_create               # it got screwed up with polymorphism
-          # section = Section.where(course: course, name: secName)
-          # if section.length == 0
-          #   section = Section.create(name: secName, course: course, room: room)
-          # elsif section.length == 1
-          #   section = section.first
-          # else
-          #   Rails.logger.error "ERROR: Multiple sections with same name: #{secName}"
-          # end
-          section = Section.where(name: secName, course: course, room: room).first_or_create
-          stu.sections << section
         end
         stu.save
         # At this point, we have the students, what courses they are taking, and what students
         # are in what sections. The next part parses the student's schedule to get the time
         # during which each section meets
-        # Under Construction.......
+
         boolvar = false          # If the we already know the times for all the student's
         stu.sections.each do |s| # sections, then don't waste time getting their schedule
           if s.times.nil?
@@ -244,11 +259,11 @@ namespace :schedules do
         end
         next unless boolvar
         browser.link(text: "Schedule").click
-        
+
         # Watir's tables[]... function is really easy to use, but it's horrendously slow
-        # The following code adds about 5 seconds to runtime, which for 1200 students is 
+        # The following code adds about 5 seconds to runtime, which for 1200 students is
         # unacceptable.  I may re-write this in Nokogiri if I can figure out how to. DONE: Nokogiri below
-        
+
         # resultsHash = {         # Hooray for Emacs' multiple-cursors mode and iy-go-to-char...
         #   # Monday
         #   "0" => browser.tables[0][1].tables[1][1][0].text.split("\n")[2],   # 1
@@ -351,7 +366,7 @@ namespace :schedules do
           # Friday
           "34" => doc.xpath("//body//table[1]//tbody[1]//tr[2]//td[1]//table[1]//tbody[1]//tr[3]//td[1]//table[1]//tbody[1]//tr[2]//td[5]//b[2]//font[1]//font[1]").text.split("\n")[0].strip,   # 1
           "35" => doc.xpath("//body//table[1]//tbody[1]//tr[2]//td[1]//table[1]//tbody[1]//tr[3]//td[1]//table[1]//tbody[1]//tr[3]//td[5]//b[2]//font[1]//font[1]").text.split("\n")[0].strip,   # 2
-          # Advising 
+          # Advising
           "36" => doc.xpath("//body//table[1]//tbody[1]//tr[2]//td[1]//table[1]//tbody[1]//tr[3]//td[1]//table[1]//tbody[1]//tr[5]//td[5]//b[2]//font[1]//font[1]").text.split("\n")[0].strip,   # 3
           "37" => doc.xpath("//body//table[1]//tbody[1]//tr[2]//td[1]//table[1]//tbody[1]//tr[3]//td[1]//table[1]//tbody[1]//tr[6]//td[5]//b[2]//font[1]//font[1]").text.split("\n")[0].strip,   # 4
           "38" => doc.xpath("//body//table[1]//tbody[1]//tr[2]//td[1]//table[1]//tbody[1]//tr[3]//td[1]//table[1]//tbody[1]//tr[7]//td[5]//b[2]//font[1]//font[1]").text.split("\n")[0].strip,   # 5
@@ -362,7 +377,7 @@ namespace :schedules do
         }
         newHash = {}
         resultsHash.each do |period, course|
-          next if course.empty? || course.match(/^ATH-/) # Because FIT sometimes ends up in people's schedules
+          next if course.empty? || course.match(/^ATH-/) || course.match(/PROJ/)
           if newHash[course].nil?
             newHash[course] = period
           else
@@ -372,21 +387,58 @@ namespace :schedules do
         newHash.each do |course, times|
           section = stu.sections.where('name LIKE ?', "%#{course}%").take
           if section.nil?
-            logError "ERROR: Can't find section #{course}"
+            logError "Can't find section #{course}"
           end
           next unless section.times.nil? # If we have the time info from another student, dont rewrite it
           section.times = times
           section.save
         end
       end
-
+      logInfo "Schedule parsing completed successfully."
     ensure
       browser.close # No longer #Commented out for debugging purposes
     end
   end
+
+  desc "Remove students with no student ID from the database"
+  task purgeNilIDs: :environment do 
+    Student.all.each do |s|
+      if s.pa_id.nil?
+        logInfo "Removing #{s.full_name} from database"
+        s.destroy
+      end
+    end
+  end
+
+  desc "Remove students with blank schedules from the database"
+  task purgeBlankSchedules: :environment do
+    Student.all.each do |s|
+      if s.sections.count == 0
+        logInfo "Removing #{s.full_name} from database"
+        s.destroy
+      end
+    end
+  end
+end
+
+def logInfo(str)
+  str = getTimeString + "INFO: " + str
+  Rails.logger.info str
+  puts str
 end
 
 def logError(str)
+  str = getTimeString + "ERROR: " + str
   Rails.logger.error str
   puts str
+end
+
+def logWarn(str)
+  str = getTimeString + "WARNING: " +str
+  Rails.logger.warn str
+  puts str
+end
+
+def getTimeString
+  return "[" + Time.now.strftime("%x - %X") + "] "
 end

@@ -1,4 +1,5 @@
 class SectionsController < ApplicationController
+  before_filter :check_student, only: :show
   def show
     @section = Section.find(params[:id])
     respond_to do |format|
@@ -8,5 +9,12 @@ class SectionsController < ApplicationController
   end
 
   def index
+  end
+
+  def check_student
+    stu = Student.find_by(email: current_user.email)
+    if !Section.find(params[:id]).students.include? stu
+      redirect_to stu
+    end
   end
 end
