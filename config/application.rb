@@ -15,7 +15,6 @@ module FinalProject
     config.action_mailer.smtp_settings = {
       :address              => 'smtp.gmail.com',
       :port                 => 587,
-      :domain               => 'bam.com',
       :user_name            => 'pa.schedule.bot@gmail.com',
       :password             => 'thebiscuit',
       :authentication       => 'plain',
