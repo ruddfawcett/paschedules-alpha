@@ -1,9 +1,9 @@
 <h1><%= @student.full_name %></h1>
-<div class="col-md-6">
+<div class="col-md-8">
   <div class="schedule">
     <table class="table-condensed; border:none">
       <tr>
-        <td style="vertical-align:top">
+	<td style="vertical-align:top">
           <table class="table">
             <%= render "schBox", arr: @schedule[0] %>
             <%= render "schBox", arr: @schedule[1] %>
@@ -158,7 +158,7 @@
   </p>
   <% end %>
 </div>
-<div class="col-md-6" id="sectionBox">
+<div class="col-md-4" id="sectionBox">
   <% if current_user.email == @student.email %>
   <h2>Click a class to view its roster.</h2>
   <% else %>
