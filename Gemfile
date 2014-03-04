@@ -27,6 +27,7 @@ gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4"
 # Front-end Gems
 gem 'sass-rails', '~> 4.0.0'
 gem 'bootstrap-sass'
+gem 'kaminari', '~> 0.15.1'
 group :development do
   gem 'rails_layout'
 end

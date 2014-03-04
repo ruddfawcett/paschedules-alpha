@@ -6,8 +6,13 @@
     /* background-color: rgba(70, 70, 70, 0.1);  */
     text-align: center;
     font-size: 8pt;
-    
 }
+
+.schCol td {
+    width: 20%;
+    /* vertical-align: top; */
+}
+
 .per1 td {
     background-color: rgba(#1F90FF, 0.4);
 }
