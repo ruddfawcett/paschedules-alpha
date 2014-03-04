@@ -1,9 +1,9 @@
 <h1><%= @student.full_name %></h1>
-<div class="col-md-6">
+<div class="col-md-8">
   <div class="schedule">
     <table class="table-condensed; border:none">
       <tr>
-        <td style="vertical-align:top">
+        <td class="schCol" style="vertical-align:top;">
           <table class="table">
             <%= render "schBox", arr: @schedule[0] %>
             <%= render "schBox", arr: @schedule[1] %>
@@ -33,7 +33,7 @@
             <%= render "schBox", arr: @schedule[8] %>
           </table>
         </td>
-        <td style="vertical-align:top">
+        <td class="schCol" style="vertical-align:top;">
           <table class="table">
             <%= render "schBox", arr: @schedule[9] %>
             <%= render "schBox", arr: @schedule[10] %>
@@ -63,7 +63,7 @@
             <%= render "schBox", arr: @schedule[17] %>
           </table>
         </td>
-        <td style="vertical-align:top">
+        <td class="schCol" style="vertical-align:top;">
           <table class="table">
             <%= render "schBox", arr: @schedule[18] %>
             <%= render "schBox", arr: @schedule[19] %>
@@ -83,7 +83,7 @@
             <%= render "schBox", arr: @schedule[23] %>
           </table>
         </td>
-        <td style="vertical-align:top">
+        <td class="schCol" style="vertical-align:top;">
           <table class="table">
             <%= render "schBox", arr: @schedule[24] %>
             <%= render "schBox", arr: @schedule[25] %>
@@ -114,7 +114,7 @@
             <%= render "schBox", arr: @schedule[33] %>
           </table>
         </td>
-        <td style="vertical-align:top">
+        <td class="schCol" style="vertical-align:top;">
           <table class="table">
             <%= render "schBox", arr: @schedule[34] %>
             <%= render "schBox", arr: @schedule[35] %>
@@ -158,7 +158,7 @@
   </p>
   <% end %>
 </div>
-<div class="col-md-6" id="sectionBox">
+<div class="col-md-4" id="sectionBox">
   <% if current_user.email == @student.email %>
   <h2>Click a class to view its roster.</h2>
   <% else %>
