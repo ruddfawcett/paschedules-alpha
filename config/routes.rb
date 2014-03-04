@@ -6,7 +6,6 @@ FinalProject::Application.routes.draw do
   #  get "sections/show"
   #  get "sections/index"
   get "static_pages/home"
-  get "static_pages/search"
   #  get "students/index"
   #  get 'students/:id', to: 'students#show'
   #  get "students/", to: 'students#index'

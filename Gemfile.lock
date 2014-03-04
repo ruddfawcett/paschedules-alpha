@@ -52,6 +52,8 @@ GEM
     bcrypt-ruby (3.1.2)
     bootstrap-sass (3.0.3.0)
       sass (~> 3.2)
+    bootstrap-typeahead-rails (0.9.3.3)
+      railties (>= 3.0)
     builder (3.1.4)
     capybara (2.2.1)
       mime-types (>= 1.16)
@@ -188,6 +190,7 @@ PLATFORMS
 DEPENDENCIES
   annotate (~> 2.6.1)
   bootstrap-sass
+  bootstrap-typeahead-rails (~> 0.9.3.3)
   capybara (~> 2.2.1)
   coffee-rails (~> 4.0.0)
   devise (~> 3.2.2)

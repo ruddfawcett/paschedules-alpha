@@ -1,5 +1,24 @@
 class StudentsController < ApplicationController
   def index
+    arr = params[:search].split(' ')
+    if arr.length > 4
+      arr = arr.first(4)
+      flash[:error] = "Too many search terms"
+    end
+    
+    @students = []
+    arr.each_with_index do |a, idx|
+      q = Student.search(full_name_or_first_name_or_last_name_or_pref_name_cont: a)
+      if idx == 0
+        @students = q.result(distinct: true)
+      else
+        tmpArr = q.result(distinct: true)
+        @students = @students.select { |s| tmpArr.include? s }
+      end
+      q = nil
+    end
+
+    @students.uniq
   end
   
   def show
