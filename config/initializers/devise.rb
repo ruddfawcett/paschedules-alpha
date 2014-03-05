@@ -253,6 +253,6 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 end
 
-Devise::Mailer.class_eval do
+Devise::Mailer.instance_eval do
   helper :devise
 end

@@ -22,6 +22,7 @@ class StudentsController < ApplicationController
   end
   
   def show
+
     id = params[:id]
     @student = nil # Do you need this? In java/C you would...
     if id.match(/^\d{7}$/)
@@ -81,5 +82,17 @@ class StudentsController < ApplicationController
         @schedule[i][5] = TIMES[i][2]
       end
     end
-  end
+
+    respond_to do |format|
+      format.png do
+
+        @kit = IMGKit.new("http://localhost:3000/students/#{@student.id}")
+#        @kit = IMGKit.new("https://www.google.com/search?q=imgkit+undefined+method+match&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a")
+
+        send_data(@kit.to_png, type: "image/png", disposition: "inline")
+      end
+
+      format.html
+    end
+  end  
 end
