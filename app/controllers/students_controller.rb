@@ -86,16 +86,11 @@ class StudentsController < ApplicationController
     respond_to do |format|
       format.png do
         gen_html = render_to_string :action => "show_png.html.erb", :layout => "png"
-        @kit = IMGKit.new(gen_html)
-        #@kit.stylesheets << Rails.root.join('app', 'assets','stylesheets', 'students.css.scss') 
-        #@kit.stylesheets << Rails.root.join('app', 'assets','stylesheets', 'application.css.scss')
-        #@kit.stylesheets << Rails.root.join('app', 'assets','stylesheets','framework_and_overrides.css.scss')
-        #@kit.stylesheets << Rails.root.join('app', 'assets','stylesheets', 'custom.css.scss')
-#        @kit = IMGKit.new("https://www.google.com/search?q=imgkit+undefined+method+match&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a")
-
+        @kit = IMGKit.new(gen_html, width: 700, height: 800)
+        
         send_data(@kit.to_png, type: "image/png", disposition: "inline")
       end
-
+      
       format.html
     end
   end  
