@@ -50,7 +50,11 @@ class StudentsController < ApplicationController
     for i in EXTENDEDS.keys                      # First, go through extended periods
       if @schedule[i] == @schedule[EXTENDEDS[i]] # If a used double period or double free
         @schedule[EXTENDEDS[i]][3] = "SKIP"
-        @schedule[i][4] = TIMES[i][0] + "-" + TIMES[EXTENDEDS[i]][1]
+        if i > EXTENDEDS[i]
+            @schedule[i][4] = TIMES[EXTENDEDS[i]][0] + "-" + TIMES[i][1]
+        else
+          @schedule[i][4] = TIMES[i][0] + "-" + TIMES[EXTENDEDS[i]][1]
+        end
         if @schedule[i][0] == " "
           @schedule[i][3] = "DOUBLEFREE"
         else
