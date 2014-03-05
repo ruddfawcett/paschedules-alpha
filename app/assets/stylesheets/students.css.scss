@@ -5,12 +5,16 @@
 .schedule {
     /* background-color: rgba(70, 70, 70, 0.1);  */
     text-align: center;
-    font-size: 8pt;
+    font-size: 8pt;		 
 }
 
 .schCol td {
     width: 20%;
     /* vertical-align: top; */
+}
+
+.schCol td table td {
+    border: 1px solid rgb(50, 50, 50);
 }
 
 .per1 td {

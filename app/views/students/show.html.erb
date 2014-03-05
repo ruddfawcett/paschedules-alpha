@@ -1,15 +1,15 @@
 <h1><%= @student.full_name %></h1>
-<div class="col-md-8">
+<div class="col-md-7">
   <div class="schedule">
-    <table class="table-condensed; border:none">
+    <table class="schCol table-condensed; border:none" width="100%">
       <tr>
 	<td style="vertical-align:top">
-          <table class="table">
+          <table>
             <%= render "schBox", arr: @schedule[0] %>
             <%= render "schBox", arr: @schedule[1] %>
             <tr class="auxiliary">
               <td>
-                <div style="height:40px; overflow:hidden">
+                <div style="height:30px; overflow:hidden">
                   <p>
                     9:45-10:15<br>
                     Conference
@@ -25,7 +25,7 @@
             <tr class="auxiliary">
               <td>
                 <div style="height:15px; overflow:hidden">
-                  Sports etc.
+                  Athletics
                 </div>
               </td>
             </tr>
@@ -34,12 +34,12 @@
           </table>
         </td>
         <td style="vertical-align:top">
-          <table class="table">
+          <table>
             <%= render "schBox", arr: @schedule[9] %>
             <%= render "schBox", arr: @schedule[10] %>
             <tr class="auxiliary">
               <td>
-                <div style="height:40px; overflow:hidden">
+                <div style="height:30px; overflow:hidden">
                   <p>
                     9:45-10:15<br>
                     Conference
@@ -55,7 +55,7 @@
             <tr class="auxiliary">
               <td>
                 <div style="height:15px; overflow:hidden">
-                  Sports etc.
+                  Athletics
                 </div>
               </td>
             </tr>
@@ -64,7 +64,7 @@
           </table>
         </td>
         <td style="vertical-align:top">
-          <table class="table">
+          <table>
             <%= render "schBox", arr: @schedule[18] %>
             <%= render "schBox", arr: @schedule[19] %>
             <%= render "schBox", arr: @schedule[20] %>
@@ -73,7 +73,7 @@
               <td>
                 <div style="height:80px; overflow:hidden">
                   <p>
-                    10:45-11:45<br>
+                    10:50-11:35<br>
                     ASM
                   </p>
                 </div>
@@ -84,12 +84,22 @@
           </table>
         </td>
         <td style="vertical-align:top">
-          <table class="table">
+          <table>
+            <tr class="auxiliary">
+              <td>
+                <div style="height:74px; overflow:hidden">
+                  <p>
+                    8:00-8:45<br>
+                    Departmental Meetings
+                  </p>
+                </div>
+              </td>
+            </tr>
             <%= render "schBox", arr: @schedule[24] %>
             <%= render "schBox", arr: @schedule[25] %>
             <tr class="auxiliary">
               <td>
-                <div style="height:40px; overflow:hidden">
+                <div style="height:30px; overflow:hidden">
                   <p>
                     10:10-10:40<br>
                     Conference
@@ -105,8 +115,8 @@
             <%= render "schBox", arr: @schedule[31] %>
             <tr class="auxiliary">
               <td>
-                <div style="height:50px; overflow:hidden">
-                  Sports etc.
+                <div style="height:15px; overflow:hidden">
+                  Athletics
                 </div>
               </td>
             </tr>
@@ -115,12 +125,12 @@
           </table>
         </td>
         <td style="vertical-align:top">
-          <table class="table">
+          <table>
             <%= render "schBox", arr: @schedule[34] %>
             <%= render "schBox", arr: @schedule[35] %>
             <tr class="auxiliary">
               <td>
-                <div style="height:40px; overflow:hidden">
+                <div style="height:30px; overflow:hidden">
                   <p>
                     9:45-10:15<br>
                     Conference
@@ -136,7 +146,7 @@
             <tr class="auxiliary">
               <td>
                 <div style="height:15px; overflow:hidden">
-                  Sports etc.
+                  Athletics
                 </div>
               </td>
             </tr>

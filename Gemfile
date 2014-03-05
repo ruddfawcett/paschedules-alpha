@@ -31,7 +31,6 @@ gem 'kaminari', '~> 0.15.1'
 group :development do
   gem 'rails_layout'
 end
-gem "bootstrap-typeahead-rails", "~> 0.9.3.3"
 
 # Misc. Gems
 gem 'uglifier', '>= 1.3.0'
