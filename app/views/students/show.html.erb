@@ -159,7 +159,7 @@
           </table>
         </td>
       </tr>
-    </table>
+    </table> 
   </div>
   <h3>Other Commitments:</h3>
   <% @student.commitments.each do |c| %>
@@ -177,5 +177,5 @@
   <h2>Click a class to view its roster.</h2>
 </div>
 
-<%= link_to @kit %>
+<%= link_to "Download Schedule", student_path(@student, format: :png) %>
 <% end %>
