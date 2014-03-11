@@ -1,8 +1,9 @@
-<h1><%= @student.full_name %></h1>
 <% if current_user.email == @student.email %>
-<div class="col-md-8">
+<h1><%= @student.full_name %></h1>
+<div class="col-md-7">
 <% else %>
-<div class="col-md-8 col-md-offset-2">
+<div class="col-md-7 col-md-offset-2">
+<h1><%= @student.full_name %></h1>
 <% end %>
   <div class="schedule">
     <table class="schCol table-condensed; border:none" width="100%">
@@ -173,7 +174,7 @@
   <% end %>
 </div>
 <% if current_user.email == @student.email %>
-<div class="col-md-4" id="sectionBox">
+<div class="col-md-5" id="sectionBox">
   <h2>Click a class to view its roster.</h2>
 </div>
 
