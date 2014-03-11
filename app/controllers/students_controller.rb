@@ -26,7 +26,7 @@ class StudentsController < ApplicationController
     id = params[:id]
     @student = nil # Do you need this? In java/C you would...
     if id.match(/^\d{7}$/)
-      @student = Student.find_by(pa_id: id)
+     @student = Student.find_by(pa_id: id)
     elsif id.match(/^\d+$/)
       @student = Student.find(id)
     else

@@ -2,7 +2,7 @@
 <% elsif arr[3] == "FREESHORT" %>
 <tr class="free">
   <td>
-    <div style="height: 37px; overflow: hidden">
+    <div style="height: 35px; overflow: hidden"> <!-- Should be 36, but weird stuff happens -->
       <div style="text-align:left; font-size: 8.5px"><%= arr[5] %></div>
       <p><%= arr[4] %><br></p>
     </div>
@@ -12,11 +12,11 @@
 <tr class=<%= css_per_class(arr) %>>
   <td>
     <% if arr[3].match(/^DOUBLE/) %>
-    <div style="height: 111px; overflow: hidden">
+    <div style="height: 109px; overflow: hidden"> <!-- Should be 108, but again, weirdness -->
       <% elsif arr[3].match(/SUPERDOUBLE/) %>
-      <div style="height: 151px; overflow: hidden"> <!-- 137px...thats a bug, but 120px doesn't line up for some reason -->
+      <div style="height: 146px; overflow: hidden"> <!-- Should be 144 -->
 	<% elsif arr[3].match(/NORMAL/) %>
-      <div style="height: 74px; overflow: hidden">
+      <div style="height: 72px; overflow: hidden">
 	<% else puts "ERROR: No size for " + arr[3] %>
         <% end %>
 	<div style="text-align:left; font-size: 8.5px"><%= arr[5] %></div>
