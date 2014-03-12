@@ -1,4 +1,5 @@
 <%# navigation styled for Bootstrap 3.0 %>
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
@@ -11,9 +12,8 @@
       <% if Student.find_by(email: current_user.email) %>
         <%= link_to "My schedule", Student.find_by(email: current_user.email), class: 'navbar-brand' %>
       <% end %>
-      <%= form_tag static_pages_search_path, method: "get", class: "navbar-form navbar-left navbar-search" do %>
-      <!-- May God help me for the code below -->
-        <div class="input-group"><%= text_field_tag :search, nil, placeholder: "Search", class: "form-control" %><span class="input-group-btn"><button class="btn btn-default" name="commit" type="submit"><span class="glyphicon glyphicon-search"></span></button></span></div>
+      <%= form_tag students_path, method: "get", class: "navbar-form navbar-left navbar-search" do %>
+      <div class="input-group"><%= text_field_tag :search, nil, placeholder: "Search", class: "form-control", id: "search" %><span class="input-group-btn"><button class="btn btn-default" name="commit" type="submit"><span class="glyphicon glyphicon-search"></span></button></span></div>
       <% end %>
     </div>
     <div class="collapse navbar-collapse">
@@ -22,7 +22,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
     	<% if user_signed_in? %>
-    	  <li><p class="navbar-text">Signed in as <%= current_user.email.split('@')[0] %></p></li>
+    	  <li><p class="navbar-text">Signed in as <%= current_name %></p></li>
     	  <li><%= link_to "Account settings", edit_user_registration_path %></li>
           <li><%= link_to "Sign out", destroy_user_session_path, method: "delete" %></li>
     	<% end %>

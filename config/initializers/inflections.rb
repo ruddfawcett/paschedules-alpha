@@ -17,4 +17,7 @@
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.plural(/studentssection/i, 'StudentsSections') # Rules for the odd name of the join table
   inflect.singular(/studentssections/i, 'StudentsSections')
+
+  inflect.plural(/studentscommitment/i, 'StudentsCommitments') 
+  inflect.singular(/studentscommitments/i, 'StudentsCommitments')
 end

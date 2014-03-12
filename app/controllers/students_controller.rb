@@ -1,12 +1,32 @@
 class StudentsController < ApplicationController
   def index
+    arr = params[:search].split(' ')
+    if arr.length > 4
+      arr = arr.first(4)
+      flash[:error] = "Too many search terms"
+    end
+    
+    @students = []
+    arr.each_with_index do |a, idx|
+      q = Student.search(full_name_or_first_name_or_last_name_or_pref_name_cont: a)
+      if idx == 0
+        @students = q.result(distinct: true)
+      else
+        tmpArr = q.result(distinct: true)
+        @students = @students.select { |s| tmpArr.include? s }
+      end
+      q = nil
+    end
+
+    @students.uniq
   end
   
   def show
+
     id = params[:id]
     @student = nil # Do you need this? In java/C you would...
     if id.match(/^\d{7}$/)
-      @student = Student.find_by(pa_id: id)
+     @student = Student.find_by(pa_id: id)
     elsif id.match(/^\d+$/)
       @student = Student.find(id)
     else
@@ -30,7 +50,11 @@ class StudentsController < ApplicationController
     for i in EXTENDEDS.keys                      # First, go through extended periods
       if @schedule[i] == @schedule[EXTENDEDS[i]] # If a used double period or double free
         @schedule[EXTENDEDS[i]][3] = "SKIP"
-        @schedule[i][4] = TIMES[i][0] + "-" + TIMES[EXTENDEDS[i]][1]
+        if i > EXTENDEDS[i]
+            @schedule[i][4] = TIMES[EXTENDEDS[i]][0] + "-" + TIMES[i][1]
+        else
+          @schedule[i][4] = TIMES[i][0] + "-" + TIMES[EXTENDEDS[i]][1]
+        end
         if @schedule[i][0] == " "
           @schedule[i][3] = "DOUBLEFREE"
         else
@@ -62,42 +86,16 @@ class StudentsController < ApplicationController
         @schedule[i][5] = TIMES[i][2]
       end
     end
-    # Old buggy code...
-        # if (7..8) === i || (16..17) === i || (18..33) === i || (41..42) === i
-    #       if @schedule[i][0] == " "
-    #         @schedule[i][3] = "DOUBLEFREE"
-    #       else
-    #         @schedule[i][3] = "DOUBLE"
-    #       end
-    #       @schedule[i][4] = TIMES[i][0] + "-" + TIMES[EXTENDEDS[i]][1]
-    #       @schedule[i][5] = TIMES[i][2]
-    #     else
-    #       @schedule[i][3] = "SUPERDOUBLE"
-    #       @schedule[i][4] = TIMES[i][0] + "-" + TIMES[i + 1][1]
-    #       @schedule[i][5] = TIMES[i][2] + "-" + TIMES[i + 1][2]
-    #     end
-    #     @schedule[i+1][3] = "SKIP"
-    #     i += 1 # What kind of language doesn't have the ++ operator?!!!
-    #   end
-    #   i += 1
-    # end
-    # for i in [8, 17, 19, 20, 23, 24, 27, 28, 31, 33, 41]
-    #   if @schedule[i][3].nil?
-    #     @schedule[i][3] = "FREESHORT"
-    #     @schedule[i][4] = TIMES[i][0] + "-" + TIMES[i][1]
-    #     @schedule[i][5] = TIMES[i][2]
-    #   end
-    # end
-    # for i in (0..6).to_a + (9..15).to_a + (34..40).to_a
-    #   if @schedule[i][3].nil?
-    #     if @schedule[i][0] == " "
-    #       @schedule[i][3] = "NORMALFREE"
-    #     else
-    #       @schedule[i][3] = "NORMAL"
-    #     end
-    #     @schedule[i][4] = TIMES[i][0] + "-" + TIMES[i][1]
-    #     @schedule[i][5] = TIMES[i][2]
-    #   end
-      #  end=
-  end
+
+    respond_to do |format|
+      format.png do
+        gen_html = render_to_string :action => "show_png.html.erb", :layout => "png"
+        @kit = IMGKit.new(gen_html, width: 700, height: 800)
+        
+        send_data(@kit.to_png, type: "image/png", disposition: "inline")
+      end
+      
+      format.html
+    end
+  end  
 end

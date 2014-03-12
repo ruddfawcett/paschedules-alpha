@@ -1,5 +1,7 @@
 <h1><%= link_to @section.name.gsub(/(.+)-\d+/, '\1'), @section.course %>-<%= @section.name.gsub(/.+-(\d+)/, '\1') %></h1>
-<% @section.students.each do |s| %>
+
+<% @students.each do |s| %>
 <p><%= render s %></p>
 <% end %>
+<%= paginate @students, remote: true %>
 

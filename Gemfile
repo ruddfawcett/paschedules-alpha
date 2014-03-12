@@ -27,9 +27,12 @@ gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4"
 # Front-end Gems
 gem 'sass-rails', '~> 4.0.0'
 gem 'bootstrap-sass'
+gem 'kaminari', '~> 0.15.1'
+gem 'kaminari-bootstrap', '~> 3.0.1'
 group :development do
   gem 'rails_layout'
 end
+
 # Misc. Gems
 gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks'
@@ -38,6 +41,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'annotate', '~> 2.6.1'
 gem "devise", "~> 3.2.2"
+gem "imgkit", "~> 1.4.0"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

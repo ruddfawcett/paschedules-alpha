@@ -11,18 +11,5 @@ class StaticPagesController < ApplicationController
       render layout: "devise"
     end
   end
-  
-  def search
-    @arr = params[:search].split(' ')
-    if @arr.length == 1
-      @q = Student.search(first_name_or_last_name_or_pref_name_cont: @arr[0])
-    elsif @arr.length == 2
-      @q = Student.search(first_name_or_pref_name_cont: @arr[0], last_name_cont: @arr[1])
-    end
-    if @q.nil?
-      @students = nil
-    else
-    @students = @q.result(distinct: true)
-    end
-  end
+
 end

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+    
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <style type="text/css">
+      <%= raw Rails.application.assets['application.css'].to_s %>
+    </style>
+  </head>
+  <body>
+    <main role="main">
+      <div class="container">
+        <%= yield %>
+      </div>
+    </main>
+  </body>
+</html>

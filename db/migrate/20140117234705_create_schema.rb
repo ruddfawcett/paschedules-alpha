@@ -33,7 +33,7 @@ class CreateSchema < ActiveRecord::Migration
       t.integer "student_id", null: false
       t.integer "section_id", null: false
     end
-
+    
     add_index "students_sections", ["student_id", "section_id"], name: "index_students_sections_on_student_id_and_section_id", using: :btree
 
     create_table "teachers" do |t|
