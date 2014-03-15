@@ -2,6 +2,12 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+html {
+    min-width: 620px;
+    width: auto !important;
+    width: 620px;
+}
+
 .schedule {
     /* background-color: rgba(70, 70, 70, 0.1);  */
     text-align: center;
