@@ -2,9 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.0.2'
 
-# The server
-gem "passenger", "~> 4.0.38"
-
 # Heroku
 group :production do
       gem 'rails_12factor'
