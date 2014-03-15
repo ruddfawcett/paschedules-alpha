@@ -90,7 +90,7 @@ class StudentsController < ApplicationController
     respond_to do |format|
       format.png do
         gen_html = render_to_string :action => "show_png.html.erb", :layout => "png"
-        @kit = IMGKit.new(gen_html, width: 700, height: 800)
+        @kit = IMGKit.new(gen_html, width: 600, height: 730)
         
         send_data(@kit.to_png, type: "image/png", disposition: "inline")
       end
