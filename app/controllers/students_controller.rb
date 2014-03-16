@@ -3,7 +3,7 @@ class StudentsController < ApplicationController
     arr = params[:search].split(' ')
     if arr.length > 4
       arr = arr.first(4)
-      flash[:error] = "Too many search terms"
+      flash.now[:error] = "Too many search terms--your search has been truncated to \"#{arr[0]} #{arr[1]} #{arr[2]} #{arr[3]}\"."
     end
     
     @students = []
