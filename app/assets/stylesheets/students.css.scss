@@ -9,7 +9,8 @@ html {
 }
 
 .schedule {
-    /* background-color: rgba(70, 70, 70, 0.1);  */
+    background-color: rgba(#FFF, 1);
+    border: 1px solid black;
     text-align: center;
     font-size: 8pt;		 
 }
@@ -23,44 +24,47 @@ html {
     border: 1px solid rgb(50, 50, 50);
     padding: 1px;
     padding-top: 0px;
+    a {
+      color: rgba(#00A, 1);
+    }
 }
 
 .per1 td {
-    background-color: rgba(#1F90FF, 0.4);
+    background-color: rgba(#1F90FF, .6);
 }
 
 .per2 td {
-    background: rgba(#C285FF, 0.4);
+    background: rgba(#C285FF, .6);
 }
 
 .per3 td {
-    background: rgba(#F2A2F0, 0.4);
+    background: rgba(#F2A2F0, .6);
 }
 
 .per4 td {
-    background: rgba(#FF1337 , 0.4);
+    background: rgba(#FF1337 , .6);
 }
 
 .per5 td {
-    background: rgba(#FFA319, 0.4);
+    background: rgba(#FFA319, .6);
 }
 
 .per6 td {
-    background: rgba(#7FFF00, 0.4);
+    background: rgba(#7FFF00, .6);
 }
 
 .per7 td {
-    background: rgba(#248F24, 0.4);
+    background: rgba(#248F24, .6);
 }
 
 .per9 td {
-    background: rgba(#ABDCAD, 0.4);
+    background: rgba(#ABDCAD, .6);
 }
 
 .free td {
-    background: rgba(#FFFF75, 0.3);
+    background: rgba(#FFFF75, .6);
 }
 
 .auxiliary td {
-    background: rgba(#DADADA, 0.4);
+    background: rgba(#DADADA, .6);
 }

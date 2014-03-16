@@ -1,9 +1,9 @@
 <% if current_user.email == @student.email %>
 <h1><%= @student.full_name %></h1>
 <center> <%= link_to "Download Schedule", student_path(@student, format: :png) %> </center> <br>
-<div class="col-md-6">
+<div class="col-md-8 col-lg-offset-2 col-lg-6">
 <% else %>
-<div class="col-md-6 col-md-offset-3">
+<div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
 <h1><%= @student.full_name %></h1>
 <% end %>
   <div class="schedule">
@@ -175,7 +175,7 @@
   <% end %>
 </div>
 <% if current_user.email == @student.email %>
-<div class="col-md-6" id="sectionBox">
-  <h2>Click a class to view its roster.</h2>
+<div class="col-md-4" id="sectionBox">
+  <h3>Click a class to view its roster.</h3>
 </div>
 <% end %>

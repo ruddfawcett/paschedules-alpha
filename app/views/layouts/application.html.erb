@@ -7,14 +7,22 @@
     <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
     <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     <%= csrf_meta_tags %>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-  <body>
+  <body style="background-color:#EEE">
     <header>
       <%= render 'layouts/navigation' %>
     </header>
     <div class="container" id="main">
       <%= render 'layouts/messages' %>
-      <%= yield %>
+      <div class="row">
+	<%= yield %>
+      </div>
+      <div class="row">
+	<%= render 'layouts/footer' %>
+      </div>
     </div>
   </body>
 </html>
