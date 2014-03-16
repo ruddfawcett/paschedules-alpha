@@ -17,8 +17,9 @@ class StudentsController < ApplicationController
       end
       q = nil
     end
-
-    @students.uniq
+    @students.uniq!
+    @students.sort! { |a, b| a.last_name.downcase <=> b.last_name.downcase }
+    @students = Kaminari.paginate_array(@students).page(params[:page]).per(20)
   end
   
   def show
@@ -74,8 +75,15 @@ class StudentsController < ApplicationController
     end
     for i in (0..6).to_a + (9..15).to_a + (34..40).to_a # Periods without extendeds
       if @schedule[i] == @schedule[i + 1] && @schedule[i + 1][0] != " " # Superdouble, don't count
-        @schedule[i][3] = "SUPERDOUBLE"                                 # two free's in a row though
+        @schedule[i][3] = "SUPERDOUBLE"                                  # two free's in a row though
         @schedule[i][4] = TIMES[i][0] + "-" + TIMES[i + 1][1]
+        periods = @student.sections.find_by(name: @schedule[i][0]).times
+        periods.split(' ').each do |p|
+          if EXTENDEDS.keys.include?(p.to_i)
+            @schedule[i][6] = TIMES[p.to_i][2]
+            break
+          end
+        end
         @schedule[i][5] = TIMES[i][2] + "-" + TIMES[i + 1][2]
         @schedule[i + 1][3] = "SKIP"
       elsif @schedule[i][3] != "SKIP"
