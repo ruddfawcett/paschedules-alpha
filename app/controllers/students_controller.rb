@@ -37,10 +37,12 @@ class StudentsController < ApplicationController
     end
     @schedule = {}
     @student.sections.each do |s|
-      s.times.split.each do |per|
-        @schedule[per.to_i] = [s.name, s.course.teacher.full_name, s.room]
-        if s.name.match(/LUNC-100/)
-          @schedule[per.to_i] = [s.name, s.room, ""]
+      unless s.times.nil?
+        s.times.split.each do |per|
+          @schedule[per.to_i] = [s.name, s.course.teacher.full_name, s.room]
+          if s.name.match(/LUNC-100/)
+            @schedule[per.to_i] = [s.name, s.room, ""]
+          end
         end
       end
     end
