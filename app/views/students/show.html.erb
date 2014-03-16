@@ -1,3 +1,4 @@
+<% provide :title, @student.full_name %>
 <% if current_user.email == @student.email %>
 <h1><%= @student.full_name %></h1>
 <center> <%= link_to "Download Schedule", student_path(@student, format: :png) %> </center> <br>
