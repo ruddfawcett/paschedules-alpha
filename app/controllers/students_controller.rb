@@ -22,7 +22,6 @@ class StudentsController < ApplicationController
   end
   
   def show
-
     id = params[:id]
     @student = nil # Do you need this? In java/C you would...
     if id.match(/^\d{7}$/)
@@ -31,6 +30,9 @@ class StudentsController < ApplicationController
       @student = Student.find(id)
     else
       @student = Student.find_by(email: "#{id}@andover.edu")
+    end
+    if @student.nil?
+      raise ActionController::RoutingError.new('Not Found')
     end
     @schedule = {}
     @student.sections.each do |s|
