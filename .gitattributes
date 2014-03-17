@@ -1,2 +1,3 @@
 # Don't track changes for the yml files
 db/*.yml -diff
+db/*/*.yml -diff
