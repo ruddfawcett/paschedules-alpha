@@ -1,5 +1,5 @@
 <% provide :title, @student.full_name %>
-<% if current_user.email == @student.email %>
+<% if user_signed_in? and current_user.email == @student.email %>
 <h1><%= @student.full_name %></h1>
 <center> <%= link_to "Download Schedule", student_path(@student, format: :png) %> </center> <br>
 <div class="col-md-8 col-lg-offset-2 col-lg-6">
@@ -167,7 +167,7 @@
   <h3>Other Commitments:</h3>
   <% @student.commitments.each do |c| %>
   <p>
-    <% if current_user.email == @student.email %>
+    <% if user_signed_in? and current_user.email == @student.email %>
     <%= link_to(commitment_string(c), c, remote: true) %>
     <% else %>
     <%= commitment_string(c) %>
@@ -175,7 +175,7 @@
   </p>
   <% end %>
 </div>
-<% if current_user.email == @student.email %>
+<% if user_signed_in? and current_user.email == @student.email %>
 <div class="col-md-4" id="sectionBox">
   <h3>Click a class to view its roster.</h3>
 </div>
