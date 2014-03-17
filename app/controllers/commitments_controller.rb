@@ -1,5 +1,5 @@
 class CommitmentsController < ApplicationController
-  #before_filter :check_student, only: :show
+  before_filter :check_student, only: :show
 
   def show
     @commitment = Commitment.find(params[:id])
