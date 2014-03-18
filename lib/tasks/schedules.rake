@@ -1,11 +1,11 @@
 namespace :schedules do
-  USERNAME = 'jbloxham'          # Maybe read from a file in the next version so I don't have
-  PASSWORD = ''           # to redact my password before pushing to git every time
   desc "Parse the PA Online Directory"
   task parseDirectory: :environment do
     begin
+      USERNAME = readLogin[0]
+      PASSWORD = readLogin[1]
       logInfo "Starting to parse Directory..."
-      browser = Watir::Browser.new
+      browser = Watir::Browser.new :firefox, profile: 'default'
 
       browser.goto('https://portal.vpn.andover.edu/Login/Login')
       browser.text_field(id: 'userName').set(USERNAME)
@@ -89,8 +89,10 @@ namespace :schedules do
   desc "Parse the IDs. Parse directory BEFORE this!"
   task parseIds: :environment do
     begin
+      USERNAME = readLogin[0]
+      PASSWORD = readLogin[1]
       logInfo "Starting to parse IDs..."
-      browser = Watir::Browser.new
+      browser = Watir::Browser.new :firefox, profile: 'default'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
       browser.frames[1].text_field(name: 'user_id').set(USERNAME)
@@ -147,9 +149,11 @@ namespace :schedules do
   desc "Parse the Schedules. Parse IDs BEFORE this!"
   task parseSchedules: :environment do
     begin
+      USERNAME = readLogin[0]
+      PASSWORD = readLogin[1]
       logInfo "Starting to parse schedules..."
       # require 'pp'
-      browser = Watir::Browser.new
+      browser = Watir::Browser.new :firefox, profile: 'default'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
       browser.frames[1].text_field(name: 'user_id').set(USERNAME)
@@ -382,4 +386,10 @@ end
 
 def getTimeString
   return "[" + Time.now.strftime("%x - %X") + "] "
+end
+
+def readLogin
+  File.open("login_info", "r") do |file|
+    return [file.gets.strip, file.gets.strip]
+  end
 end
