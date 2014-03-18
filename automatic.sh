@@ -1,9 +1,9 @@
 #!/bin/bash
 
-rake db:reset
-cp db/fresh-preSchedules.yml db/data.yml
-rake db:data:load
-DISPLAY=:77 rake schedules:parseSchedules
+#rake db:reset
+#cp db/fresh-preSchedules.yml db/data.yml
+#rake db:data:load
+#DISPLAY=:77 rake schedules:parseSchedules
 rake schedules:purgeBlankSchedules
 rake schedules:convertToCommitments
 ./dumpDB.sh --auto
