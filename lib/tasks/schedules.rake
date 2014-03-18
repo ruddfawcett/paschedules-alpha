@@ -1,6 +1,6 @@
 namespace :schedules do
-  USERNAME = 'jherman'          # Maybe read from a file in the next version so I don't have
-  PASSWORD = '******'           # to redact my password before pushing to git every time
+  USERNAME = 'jbloxham'          # Maybe read from a file in the next version so I don't have
+  PASSWORD = ''           # to redact my password before pushing to git every time
   desc "Parse the PA Online Directory"
   task parseDirectory: :environment do
     begin
