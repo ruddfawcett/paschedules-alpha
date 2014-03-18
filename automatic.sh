@@ -6,7 +6,7 @@ rake db:data:load
 DISPLAY=:77 rake schedules:parseSchedules
 rake schedules:purgeBlankSchedules
 rake schedules:convertToCommitments
-./dumpDB.sh
+./dumpDB.sh --auto
 git commit -am "AUTOMATED COMMIT. Update data.tar.gz"
 git push heroku master
 heroku run '/app/restoreDB.sh'
