@@ -13,7 +13,9 @@ else
     rake schedules:convertToCommitments
     ./dumpDB.sh --auto
     # ;)
-    cp data.tar.gz /home/jake/scheduleArchive/
+    now=$(date +"%m-%d-%Y--%H:%M:%S")
+    filename="data-$now.tar.gz"
+    cp data.tar.gz "/home/jake/scheduleArchive/$filename"
     # Eww Eww Eww Eww Eww
     cat data.tar.gz | nc -lcp 1357 & heroku run 'nc jherman.no-ip.org 1357 > /app/data.tar.gz'
     heroku run '/app/restoreDB.sh'
