@@ -3,7 +3,7 @@
 rake db:reset
 cp db/fresh-preSchedules.yml db/data.yml
 rake db:data:load
-rake schedules:parseSchedules
+DISPLAY=:77 rake schedules:parseSchedules
 rake schedules:purgeBlankSchedules
 rake schedules:convertToCommitments
 ./dumpDB.sh
