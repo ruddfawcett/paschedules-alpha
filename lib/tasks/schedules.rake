@@ -144,6 +144,9 @@ namespace :schedules do
     Teacher.create # Add a teacher with nil everything for lunch courses
     Teacher.create(full_name: "Kathryn J. McQuade", first_name: "Kathryn", # Create this because, for some inexplicable reason,
                    last_name: "McQuade", email: "kmcquade@andover.edu")    # this person isn't in the Namescape rDirectory here
+    Student.create(full_name: "Angela J. Gu", first_name: "Angela", 
+                   last_name: "Gu", email: "agu@andover.edu", 
+                   pa_id: "0500879", grad_year: "2015")
   end
 
   desc "Parse the Schedules. Parse IDs BEFORE this!"
