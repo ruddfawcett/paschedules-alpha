@@ -1,3 +1,5 @@
+# THIS IS BROKEN DONT RUN IT YET
+
 #!/bin/bash -e
 
 if ! ([ $# == 1 ] && [ $1 == "--auto" ]); then
@@ -5,6 +7,7 @@ if ! ([ $# == 1 ] && [ $1 == "--auto" ]); then
     echo "If you still want to run it, run it with the flag --auto"
     exit
 else
+    cd /home/jake/final-project/
     source /usr/local/rvm/environments/ruby-2.0.0-p451@rails
     rake db:reset
     cp db/fresh-preSchedules.yml db/data.yml
@@ -12,16 +15,18 @@ else
     DISPLAY=:77 rake schedules:parseSchedules
     rake schedules:purgeBlankSchedules
     rake schedules:convertToCommitments
-    ./dumpDB.sh --auto
+    # Dump the database. -T users excludes the users table
+    pg_dump -Fc --no-acl --no-owner -h localhost -U jake -T users final_project_development > /tmp/data.dump
     # ;)
     now=$(date +"%m-%d-%Y--%H:%M:%S")
     filename="data-$now.tar.gz"
-    cp data.tar.gz "/home/jake/scheduleArchive/$filename"
+    tar czvf "/home/jake/scheduleArchive/$filename" /tmp/data.dump
     # Eww Eww Eww Eww Eww
     # cat data.tar.gz | nc -lcp 1357 & heroku run 'nc jherman.no-ip.org 1357 > /app/data.tar.gz'
-    # Slightly less eww
-    cp data.tar.gz /tmp/
-    heroku run 'scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i scp_id_rsa scponly@jherman.no-ip.org:/tmp/data.tar.gz ./data.tar.gz'
-    heroku run '/app/restoreDB.sh'
-    rm /tmp/data.tar.gz
+    # I'm not sure if this is even more disgusting than the first one...
+    cp /tmp/data.dump /srv/http/
+    sudo systemctl start httpd
+    heroku pgbackups:restore DATABASE_URL 'http://jherman.no-ip.org/data.dump' --confirm=paschedules
+    sudo systemctl stop httpd
+    rm /srv/http/data.dump
 fi
