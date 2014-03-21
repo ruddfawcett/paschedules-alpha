@@ -18,6 +18,10 @@ else
     filename="data-$now.tar.gz"
     cp data.tar.gz "/home/jake/scheduleArchive/$filename"
     # Eww Eww Eww Eww Eww
-    cat data.tar.gz | nc -lcp 1357 & heroku run 'nc jherman.no-ip.org 1357 > /app/data.tar.gz'
+    # cat data.tar.gz | nc -lcp 1357 & heroku run 'nc jherman.no-ip.org 1357 > /app/data.tar.gz'
+    # Slightly less eww
+    cp data.tar.gz /tmp/
+    heroku run 'scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i scp_id_rsa scponly@jherman.no-ip.org:/tmp/data.tar.gz ./data.tar.gz'
     heroku run '/app/restoreDB.sh'
+    rm /tmp/data.tar.gz
 fi
