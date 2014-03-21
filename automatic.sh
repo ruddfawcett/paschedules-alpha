@@ -1,10 +1,11 @@
-#!/bin/bash
+#!/bin/bash -e
 
 if ! ([ $# == 1 ] && [ $1 == "--auto" ]); then
     echo "WARNING: If you aren't running this on Jake's server, you probably want to edit this file to get rid of stuff specific to that computer."
     echo "If you still want to run it, run it with the flag --auto"
     exit
 else
+    source /usr/local/rvm/environments/ruby-2.0.0-p451@rails
     rake db:reset
     cp db/fresh-preSchedules.yml db/data.yml
     rake db:data:load
