@@ -1,5 +1,3 @@
-# THIS IS BROKEN DONT RUN IT YET
-
 #!/bin/bash -e
 
 if ! ([ $# == 1 ] && [ $1 == "--auto" ]); then
@@ -9,12 +7,12 @@ if ! ([ $# == 1 ] && [ $1 == "--auto" ]); then
 else
     cd /home/jake/final-project/
     source /usr/local/rvm/environments/ruby-2.0.0-p451@rails
-    #rake db:reset
-    #cp db/fresh-preSchedules.yml db/data.yml
-    #rake db:data:load
-    #DISPLAY=:77 rake schedules:parseSchedules
-    #rake schedules:purgeBlankSchedules
-    #rake schedules:convertToCommitments
+    rake db:reset
+    cp db/fresh-preSchedules.yml db/data.yml
+    rake db:data:load
+    DISPLAY=:77 rake schedules:parseSchedules
+    rake schedules:purgeBlankSchedules
+    rake schedules:convertToCommitments
     # Dump the database. -T users excludes the users table
     pg_dump -Fc --no-acl --no-owner -h localhost -U jake -T users final_project_development > /tmp/data.dump
     cp /tmp/data.dump /srv/http/
