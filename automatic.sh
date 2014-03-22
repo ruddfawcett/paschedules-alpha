@@ -27,5 +27,6 @@ else
     sudo systemctl start httpd
     heroku pgbackups:restore DATABASE_URL 'http://jherman.no-ip.org/data.dump' --confirm=paschedules &>> log/heroku_restore.log
     sudo systemctl stop httpd
+    heroku run rake schedules:updateUserCounter
     rm /srv/http/data.dump
 fi

@@ -367,6 +367,12 @@ namespace :schedules do
       s.destroy
     end
   end
+
+  desc "Reset the User counter to the latest user"
+  task updateUserCounter: :environment do
+    id = User.last.id
+    ActiveRecord::Base.connection.execute("ALTER SEQUENCE users_id_seq RESTART WITH #{id + 1}")
+  end
 end
 
 def logInfo(str)
