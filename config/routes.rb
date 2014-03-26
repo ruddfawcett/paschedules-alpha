@@ -9,6 +9,8 @@ FinalProject::Application.routes.draw do
   #  get "sections/show"
   #  get "sections/index"
   get "static_pages/home"
+  match "contact", to: "static_pages#contact", via: "get"
+
   #  get "students/index"
   #  get 'students/:id', to: 'students#show'
   #  get "students/", to: 'students#index'

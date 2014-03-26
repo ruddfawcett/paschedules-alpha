@@ -1,11 +1,11 @@
 namespace :schedules do
-  USERNAME = 'jherman'          # Maybe read from a file in the next version so I don't have
-  PASSWORD = '******'           # to redact my password before pushing to git every time
   desc "Parse the PA Online Directory"
   task parseDirectory: :environment do
     begin
+      USERNAME = readLogin[0]
+      PASSWORD = readLogin[1]
       logInfo "Starting to parse Directory..."
-      browser = Watir::Browser.new
+      browser = Watir::Browser.new :firefox, profile: 'default'
 
       browser.goto('https://portal.vpn.andover.edu/Login/Login')
       browser.text_field(id: 'userName').set(USERNAME)
@@ -89,8 +89,10 @@ namespace :schedules do
   desc "Parse the IDs. Parse directory BEFORE this!"
   task parseIds: :environment do
     begin
+      USERNAME = readLogin[0]
+      PASSWORD = readLogin[1]
       logInfo "Starting to parse IDs..."
-      browser = Watir::Browser.new
+      browser = Watir::Browser.new :firefox, profile: 'default'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
       browser.frames[1].text_field(name: 'user_id').set(USERNAME)
@@ -142,14 +144,19 @@ namespace :schedules do
     Teacher.create # Add a teacher with nil everything for lunch courses
     Teacher.create(full_name: "Kathryn J. McQuade", first_name: "Kathryn", # Create this because, for some inexplicable reason,
                    last_name: "McQuade", email: "kmcquade@andover.edu")    # this person isn't in the Namescape rDirectory here
+    Student.create(full_name: "Angela J. Gu", first_name: "Angela", 
+                   last_name: "Gu", email: "agu@andover.edu", 
+                   pa_id: "0500879", grad_year: "2015")
   end
 
   desc "Parse the Schedules. Parse IDs BEFORE this!"
   task parseSchedules: :environment do
     begin
+      USERNAME = readLogin[0]
+      PASSWORD = readLogin[1]
       logInfo "Starting to parse schedules..."
       # require 'pp'
-      browser = Watir::Browser.new
+      browser = Watir::Browser.new :firefox, profile: 'default'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
       browser.frames[1].text_field(name: 'user_id').set(USERNAME)
@@ -179,14 +186,14 @@ namespace :schedules do
         end
         #browser.tables[0].to_a.each_with_index do |arr, idx| # This tables function is a bit slow...
         resultsArray.each do |arr|
-          next if arr[0].nil? || arr[0].empty? || arr[0].match(/MUSC-909/) || arr[0].match(/MUSC-910/) || arr[0].match(/PROJ/)
+          next if arr[0].nil? || arr[0].empty? || arr[0].match(/PROJ/) || arr[0].match(/MUSC-909/) || arr[0].match(/MUSC-910/)
           secName = arr[0].strip
           secTitle = arr[1].strip
           teacherName = arr[2].strip
           if teacherName.match(/^\d+:\d+/) # If there isn't a teacher and this is a time
             teacherName = nil
           end
-          if secName.match(/^ATH/) || secName.match(/^WD/)
+          if secName.match(/^ATH/) || secName.match(/^WD/) 
             commitment = Commitment.where(name: secName, title: secTitle, teacher_name: teacherName).first_or_create
             stu.commitments << commitment
           else
@@ -222,25 +229,10 @@ namespace :schedules do
             if finalTeacher.nil?
               logError "Nil Teacher for section #{secName} for student #{stu.full_name}"
             end
-            # Commented out because I wrote this before knowing about first_or_create
-            # course = Course.where(name: courseName, teacher_id: finalTeacher.id)
-            # if course.length == 0
-            #   course = Course.create(name: courseName, teacher_id: finalTeacher.id, title: secTitle)
-            # elsif course.length == 1
-            #   course = course.first
-            # else
-            #   Rails.logger.error "ERROR: Multiple courses with same name: #{courseName}"
-            # end
+
             course = Course.where(name: courseName, teacher_id: finalTeacher.id, # Manually supply the ID because
                                   title: secTitle).first_or_create               # it got screwed up with polymorphism
-            # section = Section.where(course: course, name: secName)
-            # if section.length == 0
-            #   section = Section.create(name: secName, course: course, room: room)
-            # elsif section.length == 1
-            #   section = section.first
-            # else
-            #   Rails.logger.error "ERROR: Multiple sections with same name: #{secName}"
-            # end
+
             section = Section.where(name: secName, course: course, room: room).first_or_create
             stu.sections << section
           end
@@ -260,65 +252,6 @@ namespace :schedules do
         next unless boolvar
         browser.link(text: "Schedule").click
 
-        # Watir's tables[]... function is really easy to use, but it's horrendously slow
-        # The following code adds about 5 seconds to runtime, which for 1200 students is
-        # unacceptable.  I may re-write this in Nokogiri if I can figure out how to. DONE: Nokogiri below
-
-        # resultsHash = {         # Hooray for Emacs' multiple-cursors mode and iy-go-to-char...
-        #   # Monday
-        #   "0" => browser.tables[0][1].tables[1][1][0].text.split("\n")[2],   # 1
-        #   "1" => browser.tables[0][1].tables[1][2][0].text.split("\n")[2],   # 2
-        #   # Conference - [1][3][0]
-        #   "2" => browser.tables[0][1].tables[1][4][0].text.split("\n")[2],   # 3
-        #   "3" => browser.tables[0][1].tables[1][5][0].text.split("\n")[2],   # 4
-        #   "4" => browser.tables[0][1].tables[1][6][0].text.split("\n")[2],   # 5
-        #   "5" => browser.tables[0][1].tables[1][7][0].text.split("\n")[2],   # 6
-        #   "6" => browser.tables[0][1].tables[1][8][0].text.split("\n")[2],   # 7
-        #   "7" => browser.tables[0][1].tables[1][10][0].text.split("\n")[2],  # 9
-        #   "8" => browser.tables[0][1].tables[1][11][0].text.split("\n")[2],  # 9e
-        #   # Tuesday
-        #   "9" => browser.tables[0][1].tables[1][1][1].text.split("\n")[2],   # 1
-        #   "10" => browser.tables[0][1].tables[1][2][1].text.split("\n")[2],  # 2
-        #   # Conference [1][3][1]
-        #   "11" => browser.tables[0][1].tables[1][4][1].text.split("\n")[2],  # 3
-        #   "12" => browser.tables[0][1].tables[1][5][1].text.split("\n")[2],  # 4
-        #   "13" => browser.tables[0][1].tables[1][6][1].text.split("\n")[2],  # 5
-        #   "14" => browser.tables[0][1].tables[1][7][1].text.split("\n")[2],  # 6
-        #   "15" => browser.tables[0][1].tables[1][8][1].text.split("\n")[2],  # 7
-        #   "16" => browser.tables[0][1].tables[1][10][1].text.split("\n")[2], # 9
-        #   "17" => browser.tables[0][1].tables[1][11][1].text.split("\n")[2], # 9e
-        #   # Wednesday
-        #   "18" => browser.tables[0][1].tables[1][1][2].text.split("\n")[2],  # 1
-        #   "19" => browser.tables[0][1].tables[1][2][2].text.split("\n")[2],  # 1e
-        #   "20" => browser.tables[0][1].tables[1][3][2].text.split("\n")[2],  # 2e
-        #   "21" => browser.tables[0][1].tables[1][4][2].text.split("\n")[2],  # 2
-        #   # ASM [1][5][2]
-        #   "22" => browser.tables[0][1].tables[1][6][2].text.split("\n")[2],  # 7
-        #   "23" => browser.tables[0][1].tables[1][7][2].text.split("\n")[2],  # 7e
-        #   # Thursday
-        #   "24" => browser.tables[0][1].tables[1][2][3].text.split("\n")[2],  # 3e
-        #   "25" => browser.tables[0][1].tables[1][3][3].text.split("\n")[2],  # 3
-        #   # Conference [1][3][4]
-        #   "26" => browser.tables[0][1].tables[1][5][3].text.split("\n")[2],  # 4
-        #   "27" => browser.tables[0][1].tables[1][6][3].text.split("\n")[2],  # 4e
-        #   "28" => browser.tables[0][1].tables[1][7][3].text.split("\n")[2],  # 5e
-        #   "29" => browser.tables[0][1].tables[1][8][3].text.split("\n")[2],  # 5
-        #   "30" => browser.tables[0][1].tables[1][9][2].text.split("\n")[2],  # 6
-        #   "31" => browser.tables[0][1].tables[1][10][2].text.split("\n")[2],
-        #   "32" => browser.tables[0][1].tables[1][12][0].text.split("\n")[2], # 9
-        #   "33" => browser.tables[0][1].tables[1][13][0].text.split("\n")[2], # 9e
-        #   # Friday
-        #   "34" => browser.tables[0][1].tables[1][1][4].text.split("\n")[2],  # 1
-        #   "35" => browser.tables[0][1].tables[1][2][4].text.split("\n")[2],  # 2
-        #   # Advising [1][3][4]
-        #   "36" => browser.tables[0][1].tables[1][4][4].text.split("\n")[2],  # 3
-        #   "37" => browser.tables[0][1].tables[1][5][4].text.split("\n")[2],  # 4
-        #   "38" => browser.tables[0][1].tables[1][6][4].text.split("\n")[2],  # 5
-        #   "39" => browser.tables[0][1].tables[1][7][4].text.split("\n")[2],  # 6
-        #   "40" => browser.tables[0][1].tables[1][8][4].text.split("\n")[2],  # 7
-        #   "41" => browser.tables[0][1].tables[1][12][1].text.split("\n")[2], # 9
-        #   "42" => browser.tables[0][1].tables[1][13][1].text.split("\n")[2]  # 9e
-        # }
         doc = Nokogiri::HTML(browser.html) # Nokogiri = fast
         resultsHash = {
           # Monday
@@ -419,6 +352,27 @@ namespace :schedules do
       end
     end
   end
+  
+  desc "Convert sections with nil times to commitments"
+  task convertToCommitments: :environment do
+    Section.where(times: nil).each do |s|
+      comm = Commitment.create(teacher_name: s.course.teacher.full_name, title: s.course.title, name: s.name)
+      logInfo "Creating commitment from section #{s.name}"
+      comm.students << s.students
+      if s.course.sections.count == 1
+        logInfo "Destroying course #{s.course.name}"
+        s.course.destroy
+      end
+      logInfo "Destroying section #{s.name}"
+      s.destroy
+    end
+  end
+
+  desc "Reset the User counter to the latest user"
+  task updateUserCounter: :environment do
+    id = User.last.id
+    ActiveRecord::Base.connection.execute("ALTER SEQUENCE users_id_seq RESTART WITH #{id + 1}")
+  end
 end
 
 def logInfo(str)
@@ -441,4 +395,10 @@ end
 
 def getTimeString
   return "[" + Time.now.strftime("%x - %X") + "] "
+end
+
+def readLogin
+  File.open("login_info", "r") do |file|
+    return [file.gets.strip, file.gets.strip]
+  end
 end

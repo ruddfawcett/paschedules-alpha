@@ -3,7 +3,7 @@ class StudentsController < ApplicationController
     arr = params[:search].split(' ')
     if arr.length > 4
       arr = arr.first(4)
-      flash[:error] = "Too many search terms"
+      flash.now[:error] = "Too many search terms--your search has been truncated to \"#{arr[0]} #{arr[1]} #{arr[2]} #{arr[3]}\"."
     end
     
     @students = []
@@ -17,12 +17,12 @@ class StudentsController < ApplicationController
       end
       q = nil
     end
-
-    @students.uniq
+    @students.uniq!
+    @students.sort! { |a, b| a.last_name.downcase <=> b.last_name.downcase }
+    @students = Kaminari.paginate_array(@students).page(params[:page]).per(20)
   end
   
   def show
-
     id = params[:id]
     @student = nil # Do you need this? In java/C you would...
     if id.match(/^\d{7}$/)
@@ -32,12 +32,17 @@ class StudentsController < ApplicationController
     else
       @student = Student.find_by(email: "#{id}@andover.edu")
     end
+    if @student.nil?
+      raise ActionController::RoutingError.new('Not Found')
+    end
     @schedule = {}
     @student.sections.each do |s|
-      s.times.split.each do |per|
-        @schedule[per.to_i] = [s.name, s.course.teacher.full_name, s.room]
-        if s.name.match(/LUNC-100/)
-          @schedule[per.to_i] = [s.name, s.room, ""]
+      unless s.times.nil?
+        s.times.split.each do |per|
+          @schedule[per.to_i] = [s.name, s.course.teacher.full_name, s.room]
+          if s.name.match(/LUNC-100/)
+            @schedule[per.to_i] = [s.name, s.room, ""]
+          end
         end
       end
     end
@@ -72,8 +77,15 @@ class StudentsController < ApplicationController
     end
     for i in (0..6).to_a + (9..15).to_a + (34..40).to_a # Periods without extendeds
       if @schedule[i] == @schedule[i + 1] && @schedule[i + 1][0] != " " # Superdouble, don't count
-        @schedule[i][3] = "SUPERDOUBLE"                                 # two free's in a row though
+        @schedule[i][3] = "SUPERDOUBLE"                                  # two free's in a row though
         @schedule[i][4] = TIMES[i][0] + "-" + TIMES[i + 1][1]
+        periods = @student.sections.find_by(name: @schedule[i][0]).times
+        periods.split(' ').each do |p|
+          if EXTENDEDS.keys.include?(p.to_i)
+            @schedule[i][6] = TIMES[p.to_i][2]
+            break
+          end
+        end
         @schedule[i][5] = TIMES[i][2] + "-" + TIMES[i + 1][2]
         @schedule[i + 1][3] = "SKIP"
       elsif @schedule[i][3] != "SKIP"
@@ -90,7 +102,7 @@ class StudentsController < ApplicationController
     respond_to do |format|
       format.png do
         gen_html = render_to_string :action => "show_png.html.erb", :layout => "png"
-        @kit = IMGKit.new(gen_html, width: 700, height: 800)
+        @kit = IMGKit.new(gen_html, width: 600, height: 730)
         
         send_data(@kit.to_png, type: "image/png", disposition: "inline")
       end
