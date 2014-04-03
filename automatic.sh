@@ -25,6 +25,7 @@ else
     # cat data.tar.gz | nc -lcp 1357 & heroku run 'nc jherman.no-ip.org 1357 > /app/data.tar.gz'
     # I'm not sure if this is even more disgusting than the first one...
     sudo systemctl start httpd
+    echo "Restoring to heroku at $now" >> log/heroku_restore.log
     heroku pgbackups:restore DATABASE_URL 'http://jherman.no-ip.org/data.dump' --confirm=paschedules &>> log/heroku_restore.log
     sudo systemctl stop httpd
     heroku run rake schedules:updateUserCounter
