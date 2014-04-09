@@ -95,10 +95,10 @@ namespace :schedules do
       browser = Watir::Browser.new :firefox, profile: 'default'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
-      browser.frames[1].text_field(name: 'user_id').set(USERNAME)
-      browser.frames[1].text_field(name: 'password').set(PASSWORD)
-      browser.frames[1].button.click
-      browser.frames[1].link(text: 'My Schedule').click
+      browser.iframes[1].text_field(name: 'user_id').set(USERNAME)
+      browser.iframes[1].text_field(name: 'password').set(PASSWORD)
+      browser.iframes[1].button.click
+      browser.iframes[1].link(text: 'My Schedule').click
       browser.window(title: 'Blackboard Learn').close
       STUID = browser.url.sub(/.+stuid=([0-9]{7}).+/, '\1') #This will make it wait till the page loads
       browser.link(text: "Search").click
@@ -159,10 +159,10 @@ namespace :schedules do
       browser = Watir::Browser.new :firefox, profile: 'default'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
-      browser.frames[1].text_field(name: 'user_id').set(USERNAME)
-      browser.frames[1].text_field(name: 'password').set(PASSWORD)
-      browser.frames[1].button.click
-      browser.frames[1].link(text: 'My Schedule').click
+      browser.iframes[1].text_field(name: 'user_id').set(USERNAME)
+      browser.iframes[1].text_field(name: 'password').set(PASSWORD)
+      browser.iframes[1].button.click
+      browser.iframes[1].link(text: 'My Schedule').click
       browser.window(title: 'Blackboard Learn').close
       STUID = browser.url.sub(/.+stuid=([0-9]{7}).+/, '\1') #This will make it wait till the page loads
       Student.all.each do |stu|
