@@ -1,17 +1,18 @@
 FinalProject::Application.routes.draw do
 
   resources :sections, only: [:show]
-  resources :students, only: [:show, :index]
+  resources :students, only: [:show, :names]
   resources :courses, only: [:show]
   resources :commitments, only: [:show]
-  resources :teachers, only: [:show, :index]
+  resources :teachers, only: [:show, :names]
   resources :search, only: [:index]
   
   #  get "sections/show"
   #  get "sections/index"
   get "static_pages/home"
   match "contact", to: "static_pages#contact", via: "get"
-
+  match "students.json", to: "students#names", via: "get"
+  match "teachers.json", to: "teachers#names", via: "get"
   #  get "students/index"
   #  get 'students/:id', to: 'students#show'
   #  get "students/", to: 'students#index'

@@ -1,5 +1,5 @@
 class TeachersController < ApplicationController
-  def index
+  def names
     names = []
     Teacher.all.each do |s|
       names << { "teacher" => s.full_name }
