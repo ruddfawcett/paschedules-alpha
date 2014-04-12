@@ -1,5 +1,5 @@
 <h1><%= link_to @section.name.gsub(/(.+)-\d+/, '\1'), @section.course %>-<%= @section.name.gsub(/.+-(\d+)/, '\1') %></h1>
-
+<h4><%= @section.students.count %> students</h4>
 <% @students.each do |s| %>
 <p><%= render s %></p>
 <% end %>

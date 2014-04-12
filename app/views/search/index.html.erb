@@ -1,0 +1,10 @@
+<% provide :title, "Search Results" %>
+<h1>Search Results</h1>
+<h4><%= @count %> results</h4>
+<%= "No people match your search terms" if @people.size == 0 %>
+<table class="table table-striped">
+<% @people.each do |s| %>
+<%= render "person_in_table", person: s %>
+<% end %>
+</table>
+<%= paginate @people %>

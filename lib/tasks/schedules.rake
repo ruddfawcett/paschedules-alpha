@@ -5,15 +5,15 @@ namespace :schedules do
       USERNAME = readLogin[0]
       PASSWORD = readLogin[1]
       logInfo "Starting to parse Directory..."
-      browser = Watir::Browser.new :firefox, profile: 'default'
+      browser = Watir::Browser.new #:firefox, profile: 'default'
 
       browser.goto('https://portal.vpn.andover.edu/Login/Login')
       browser.text_field(id: 'userName').set(USERNAME)
       browser.text_field(id: 'password').set(PASSWORD)
       browser.button(id: 'Login').click
       browser.link(text: 'Phillips Academy online Directory').click
-      sleep 2
-      frame = browser.frame.frame
+      #Watir::Wait.until { browser.text.include? "Advanced.." } # lolwut
+      frame = browser.iframe.iframe # They changed it for some reason...
       flag = frame.buttons[2].visible?
       while flag do
         # Watir-webdriver's table parsing abilities are very user-friendly,
@@ -24,6 +24,7 @@ namespace :schedules do
           email = t.css("a").text                      # Firefox's developer tools and trial/error with IRB
           fullName = t.css("div.x-grid3-col-cn").text
           prefName = t.css("div.x-grid3-col-middleName").text
+          department = t.css("div.x-grid3-col-departmentNumber").text
           fullName =~ /(.+), (.+)/
           firstName = $2
           lastName = $1
@@ -35,7 +36,7 @@ namespace :schedules do
             fullName = "#{firstName} #{lastName}"
           end
           person = Teacher.new(full_name: fullName, last_name: lastName,
-                               first_name: firstName, email: email)
+                               first_name: firstName, email: email, department: department)
           person.pref_name = prefName unless prefName.match(/ +/) # The way the directory is formatted, blank
           person.save                                             # fields consist of just spaces
         end
@@ -45,10 +46,9 @@ namespace :schedules do
           Watir::Wait.until { !frame.html.gsub(/\[.+\]/, '').include? Teacher.last.email } # Because the page uses AJAX/something similar
         end                    
       end
-      browser.frame.link(text: 'Students').click
-      Watir::Wait.until { browser.frame.frames[1].html.include? "Grad Year" }
-      frame = browser.frame.frames[1]
-      flag = browser.frame.frames[1].buttons[2].visible?
+      browser.iframe.link(text: 'Students').click
+      Watir::Wait.until { browser.iframe.iframes[1].html.include? "Grad Year" }
+      frame = browser.iframe.iframes[1]
       flag = frame.buttons[2].visible?
       while flag do             # Not very DRY, basically same as above
         doc = Nokogiri::HTML(frame.html)
@@ -92,7 +92,7 @@ namespace :schedules do
       USERNAME = readLogin[0]
       PASSWORD = readLogin[1]
       logInfo "Starting to parse IDs..."
-      browser = Watir::Browser.new :firefox, profile: 'default'
+      browser = Watir::Browser.new #:firefox, profile: 'default'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
       browser.iframes[1].text_field(name: 'user_id').set(USERNAME)
@@ -156,7 +156,7 @@ namespace :schedules do
       PASSWORD = readLogin[1]
       logInfo "Starting to parse schedules..."
       # require 'pp'
-      browser = Watir::Browser.new :firefox, profile: 'default'
+      browser = Watir::Browser.new #:firefox, profile: 'default'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
       browser.iframes[1].text_field(name: 'user_id').set(USERNAME)

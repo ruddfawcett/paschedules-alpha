@@ -1,10 +1,11 @@
 FinalProject::Application.routes.draw do
 
-  resources :sections, only: [:show, :index]
+  resources :sections, only: [:show]
   resources :students, only: [:show, :index]
-  resources :courses, only: [:show, :index]
+  resources :courses, only: [:show]
   resources :commitments, only: [:show]
-  resources :teachers, only: [:show]
+  resources :teachers, only: [:show, :index]
+  resources :search, only: [:index]
   
   #  get "sections/show"
   #  get "sections/index"
