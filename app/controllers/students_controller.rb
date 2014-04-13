@@ -2,7 +2,11 @@ class StudentsController < ApplicationController
   def names
     names = []
     Student.all.each do |s|
-      names << { "student" => s.full_name }
+      str = s.full_name
+      if !s.pref_name.nil? && !s.pref_name.match(/^[[:space:]]+$/)
+        str += " (" + s.pref_name + ")"
+      end
+      names << { "student" => str }
     end
     render json: names
   end
