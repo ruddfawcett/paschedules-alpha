@@ -37,7 +37,7 @@ namespace :schedules do
           end
           person = Teacher.new(full_name: fullName, last_name: lastName,
                                first_name: firstName, email: email, department: department)
-          person.pref_name = prefName unless prefName.match(/ +/) # The way the directory is formatted, blank
+          person.pref_name = prefName unless prefName.match(/^[[:space:]]+$/) # The way the directory is formatted, blank
           person.save                                             # fields consist of just spaces
         end
         flag = frame.buttons[2].visible?
@@ -72,7 +72,7 @@ namespace :schedules do
           person = Student.new(full_name: fullName, last_name: lastName,
                                first_name: firstName, email: email,
                                cluster: cluster, grad_year: gradYear)
-          person.pref_name = prefName unless prefName.match(/ +/)
+          person.pref_name = prefName unless prefName.match(/^[[:space:]]+$/)
           person.save
         end
         flag = frame.buttons[2].visible?

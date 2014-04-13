@@ -3,13 +3,13 @@
 var students = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('student'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: "/students.json"
+    prefetch: "/studentList.json"
 });
 
 var teachers = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('teacher'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: "/teachers.json"
+    prefetch: "/teacherList.json"
 });
 
 var ready;

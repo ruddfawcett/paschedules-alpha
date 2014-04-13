@@ -11,8 +11,8 @@ FinalProject::Application.routes.draw do
   #  get "sections/index"
   get "static_pages/home"
   match "contact", to: "static_pages#contact", via: "get"
-  match "students.json", to: "students#names", via: "get"
-  match "teachers.json", to: "teachers#names", via: "get"
+  match "studentList.json", to: "students#names", via: "get"
+  match "teacherList.json", to: "teachers#names", via: "get"
   #  get "students/index"
   #  get 'students/:id', to: 'students#show'
   #  get "students/", to: 'students#index'

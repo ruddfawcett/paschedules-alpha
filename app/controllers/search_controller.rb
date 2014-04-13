@@ -1,6 +1,10 @@
 class SearchController < ApplicationController
   def index
-    arr = params[:search].split(' ')
+    str = params[:search]
+    arr = str.split(' ')
+    if str.match(/(\w+ (?:\w\.)? ?\w+) ?(?:\((\w+)\))?/) # Whee ugly regular expressions
+      redirect_to Person.find_by(full_name: $1, pref_name: $2)
+    end
     if arr.length > 4
       arr = arr.first(4)
       flash.now[:error] = "Too many search terms--your search has been truncated to \"#{arr[0]} #{arr[1]} #{arr[2]} #{arr[3]}\"."
