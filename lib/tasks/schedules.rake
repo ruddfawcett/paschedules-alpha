@@ -156,7 +156,7 @@ namespace :schedules do
       PASSWORD = readLogin[1]
       logInfo "Starting to parse schedules..."
       # require 'pp'
-      browser = Watir::Browser.new :firefox, profile: 'default'
+      browser = Watir::Browser.new #:firefox, profile: 'default'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
       browser.iframes[1].text_field(name: 'user_id').set(USERNAME)
@@ -230,9 +230,8 @@ namespace :schedules do
               logError "Nil Teacher for section #{secName} for student #{stu.full_name}"
             end
 
-            course = Course.where(name: courseName, teacher_id: finalTeacher.id, # Manually supply the ID because
-                                  title: secTitle).first_or_create               # it got screwed up with polymorphism
-
+            supercourse = Supercourse.where(name: courseName, title: secTitle).first_or_create
+            course = Course.where(teacher_id: finalTeacher.id, supercourse_id: supercourse.id).first_or_create
             section = Section.where(name: secName, course: course, room: room).first_or_create
             stu.sections << section
           end
@@ -356,11 +355,15 @@ namespace :schedules do
   desc "Convert sections with nil times to commitments"
   task convertToCommitments: :environment do
     Section.where(times: nil).each do |s|
-      comm = Commitment.create(teacher_name: s.course.teacher.full_name, title: s.course.title, name: s.name)
+      comm = Commitment.create(teacher_name: s.course.teacher.full_name, title: s.course.supercourse.title, name: s.name)
       logInfo "Creating commitment from section #{s.name}"
       comm.students << s.students
+      if s.course.supercourse.courses.count == 1
+        logInfo "Destroying supercourse #{s.course.supercourse.name}"
+        s.course.supercourse.destroy
+      end
       if s.course.sections.count == 1
-        logInfo "Destroying course #{s.course.name}"
+        logInfo "Destroying course #{s.course.supercourse.name}"
         s.course.destroy
       end
       logInfo "Destroying section #{s.name}"

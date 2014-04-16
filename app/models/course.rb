@@ -13,4 +13,14 @@
 class Course < ActiveRecord::Base
   has_many :sections
   belongs_to :teacher
+  belongs_to :supercourse
+
+  # Helper methods to make the old code not crash
+  def name
+    supercourse.name
+  end
+
+  def title
+    supercourse.title
+  end
 end

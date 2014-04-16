@@ -2,8 +2,14 @@ class SearchController < ApplicationController
   def index
     str = params[:search]
     arr = str.split(' ')
+    if str.match(/([a-zA-Z]+-\w+\/?\d?): \w+/) # if its a course
+      puts $1
+      redirect_to Supercourse.find_by(name: $1)
+      return
+    end
     if str.match(/(\w+ (?:\w\.)? ?\w+) ?(?:\((\w+)\))?/) # Whee ugly regular expressions
       redirect_to Person.find_by(full_name: $1, pref_name: $2)
+      return
     end
     if arr.length > 4
       arr = arr.first(4)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140412040505) do
+ActiveRecord::Schema.define(version: 20140415214625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,11 +25,10 @@ ActiveRecord::Schema.define(version: 20140412040505) do
   end
 
   create_table "courses", force: true do |t|
-    t.integer  "teacher_id", null: false
-    t.string   "name"
+    t.integer  "teacher_id",     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "title"
+    t.integer  "supercourse_id"
   end
 
   create_table "people", force: true do |t|
@@ -67,6 +66,13 @@ ActiveRecord::Schema.define(version: 20140412040505) do
   end
 
   add_index "students_sections", ["student_id", "section_id"], name: "index_students_sections_on_student_id_and_section_id", using: :btree
+
+  create_table "supercourses", force: true do |t|
+    t.string   "name"
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

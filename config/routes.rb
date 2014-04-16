@@ -2,10 +2,11 @@ FinalProject::Application.routes.draw do
 
   resources :sections, only: [:show]
   resources :students, only: [:show, :names]
-  resources :courses, only: [:show]
+  resources :courses, only: [:show, :names]
   resources :commitments, only: [:show]
   resources :teachers, only: [:show, :names]
   resources :search, only: [:index]
+  resources :supercourses, only: [:show]
   
   #  get "sections/show"
   #  get "sections/index"
@@ -13,6 +14,7 @@ FinalProject::Application.routes.draw do
   match "contact", to: "static_pages#contact", via: "get"
   match "studentList.json", to: "students#names", via: "get"
   match "teacherList.json", to: "teachers#names", via: "get"
+  match "courseList.json", to: "supercourses#names", via: "get"
   #  get "students/index"
   #  get 'students/:id', to: 'students#show'
   #  get "students/", to: 'students#index'

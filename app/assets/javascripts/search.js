@@ -12,11 +12,18 @@ var teachers = new Bloodhound({
     prefetch: "/teacherList.json"
 });
 
+var courses = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('course'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: "/courseList.json"
+});
+
 var ready;
 ready = function() {
     // initialize the bloodhound suggestion engine
     students.initialize();
     teachers.initialize();
+    courses.initialize();
     // promise
     //  .done(function() { console.log('Bloodhound initialized!'); })
     //  .fail(function() { console.log('Error during Bloodhound initialization!'); });
@@ -41,6 +48,14 @@ ready = function() {
         source: teachers.ttAdapter(),
 	templates: {
            header: '<h3 class="person-cat">Teachers</h3>'
+        }
+    },
+    {
+        name: 'courses',
+        displayKey: 'course',
+        source: courses.ttAdapter(),
+	templates: {
+           header: '<h3 class="person-cat">Courses</h3>'
         }
     });
 };
