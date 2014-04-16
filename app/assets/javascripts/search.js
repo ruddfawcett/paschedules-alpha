@@ -58,7 +58,12 @@ ready = function() {
            header: '<h3 class="person-cat">Courses</h3>'
         }
     });
+    $('#tabPane a').click(function (e) {
+	e.preventDefault()
+	$(this).tab('show')
+    });
 };
 
 $(document).ready(ready);
 $(document).on('page:load', ready);
+

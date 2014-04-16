@@ -1,6 +1,5 @@
 <tr>
   <td><%= link_to person.full_name, person %></td>
-  <td><%= person.type %></td>
   <% if person.type == "Student" %>
   <td><%= person.grad_year %></td>
   <% else %>

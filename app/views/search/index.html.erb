@@ -1,10 +1,50 @@
 <% provide :title, "Search Results" %>
 <h1>Search Results</h1>
-<h4><%= @count %> results</h4>
-<%= "No people match your search terms" if @people.size == 0 %>
-<table class="table table-striped">
-<% @people.each do |s| %>
-<%= render "person_in_table", person: s %>
-<% end %>
-</table>
-<%= paginate @people %>
+
+<ul id="tabPane" class="nav nav-tabs">
+  <li class="active"><a href="#students">Students</a></li>
+  <li><a href="#teachers">Teachers</a></li>
+  <li><a href="#courses">Courses</a></li>
+</ul>
+
+<div id="tabPaneContent" class="tab-content">
+  <div id="students" class="tab-pane active">
+    <h4><%= @students_count %> students</h4>
+    <%= "No students match your search terms" if @students.size == 0 %>
+    <table class="table table-striped">
+      <% @students.each do |s| %>
+      <%= render "person_in_table", person: s %>
+      <% end %>
+    </table>
+    <%= paginate @students, params: {tab: "students"}, param_name: "students_page" %>
+  </div>
+  <div id="teachers" class="tab-pane">
+    <h4><%= @teachers_count %> teachers</h4>
+    <%= "No teachers match your search terms" if @teachers.size == 0 %>
+    <table class="table table-striped">
+      <% @teachers.each do |s| %>
+      <%= render "person_in_table", person: s %>
+      <% end %>
+    </table>
+    <%= paginate @teachers, params: {tab: "teachers"}, param_name: "teachers_page" %>
+  </div>
+  <div id="courses" class="tab-pane">
+    <h4><%= @courses_count %> courses</h4>
+    <%= "No courses match your search terms" if @courses.size == 0 %>
+    <table class="table table-striped">
+      <% @courses.each do |s| %>
+      <%= render "course_in_table", course: s %>
+      <% end %>
+    </table>
+    <%= paginate @courses, params: {tab: "courses"}, param_name: "courses_page" %>
+  </div>
+</div>
+
+<% @tab_id = params[:tab] ? "#tabPane a[href=" + %Q(##{params[:tab]}) + "]" : "#tabPane a:first" %>
+
+<script>
+  $(document).ready(function() {
+  $(function () {
+  $('<%= @tab_id %>').tab('show');
+  });});
+</script>
