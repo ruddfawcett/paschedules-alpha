@@ -9,7 +9,7 @@ class SearchController < ApplicationController
         return
       end
     end
-    if str.match(/(\w+ (?:\w\.)? ?\w+) ?(?:\((\w+)\))?/) # Whee ugly regular expressions
+    if str.match(/(\S+ (?:\S\.)? ?\S+) ?(?:\((\S+)\))?/) # Whee ugly regular expressions
       p = Person.find_by(full_name: $1, pref_name: $2)
       if !p.nil?
         redirect_to p
