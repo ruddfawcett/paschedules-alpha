@@ -25,12 +25,8 @@
 	  <% if arr[3].match(/FREE/) %>
 	  <% else %>
 	  <% sec = Section.find_by(name: arr[0]) %>
-          <% if user_signed_in? and current_user.email == @student.email %>
-	  <%= link_to(arr[0], sec, remote: true) %><br>
-	  <% else %>
-	  <%= arr[0] %><br>
-	  <% end %>
-          <%= shorten_name arr[1] %><br>
+          <%= link_to(arr[0], sec, remote: true) %><br>
+	  <%= shorten_name arr[1] %><br>
           <%= arr[2] %>
 	  <% end %>
 	</p>
