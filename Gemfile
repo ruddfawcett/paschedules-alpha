@@ -27,6 +27,7 @@ gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4"
 # Front-end Gems
 gem 'sass-rails', '~> 4.0.0'
 gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
 gem 'kaminari', '~> 0.15.1'
 #gem 'kaminari-bootstrap', '~> 3.0.1'
 gem 'twitter-typeahead-rails'
