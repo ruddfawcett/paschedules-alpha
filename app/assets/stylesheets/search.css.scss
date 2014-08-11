@@ -38,3 +38,7 @@
 .tt-suggestion p {
     margin: 0;
 }
+
+.input-group .twitter-typeahead .form-control:not(:first-child):not(:last-child) {
+  border-radius: 4px 0px 0px 4px;
+}
