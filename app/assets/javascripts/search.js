@@ -18,8 +18,7 @@ var courses = new Bloodhound({
     prefetch: "/courseList.json"
 });
 
-var ready;
-ready = function() {
+var ready = function() {
     // initialize the bloodhound suggestion engine
     students.initialize();
     teachers.initialize();
