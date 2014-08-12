@@ -1,12 +1,12 @@
 module StudentsHelper
   
-  def css_per_class(arr)
-    if arr[3].match(/FREE/) || arr[0].match(/LUNC-100/)
+  def css_per_class(sec)
+    if sec.type.match(/FREE/) || sec.name.match(/LUNC-100/)
       return "free"
-    elsif arr[3].match(/SUPERDOUBLE/)
-        return "per" + arr[6]
+    elsif sec.type.match(/SUPERDOUBLE/)
+        return "per" + sec.sd_period_text
     else
-      return "per" + arr[5].gsub(/^(\d).*/, '\1')
+      return "per" + sec.period_text.gsub(/^(\d).*/, '\1')
     end
   end
 

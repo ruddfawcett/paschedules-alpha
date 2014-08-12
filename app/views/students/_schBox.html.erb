@@ -1,33 +1,33 @@
-<% if arr[3] == "SKIP" %>
-<% elsif arr[3] == "FREESHORT" %>
+<% if sec.type == "SKIP" %>
+<% elsif sec.type == "FREESHORT" %>
 <tr class="free">
   <td>
     <div style="height: 35px; overflow: hidden"> <!-- Should be 36, but weird stuff happens -->
-      <div style="text-align:left; font-size: 8.5px"><%= arr[5] %></div>
-      <p><%= arr[4] %><br></p>
+      <div style="text-align:left; font-size: 8.5px"><%= sec.period_text %></div>
+      <p><%= sec.time_text %><br></p>
     </div>
   </td>
 </tr>
-<% elsif arr[3] != nil %>
-<tr class=<%= css_per_class(arr) %>>
+<% elsif sec.type != nil %>
+<tr class=<%= css_per_class(sec) %>>
   <td>
-    <% if arr[3].match(/^DOUBLE/) %>
+    <% if sec.type.match(/^DOUBLE/) %>
     <div style="height: 109px; overflow: hidden"> <!-- Should be 108, but again, weirdness -->
-      <% elsif arr[3].match(/SUPERDOUBLE/) %>
+      <% elsif sec.type.match(/SUPERDOUBLE/) %>
       <div style="height: 146px; overflow: hidden"> <!-- Should be 144 -->
-	<% elsif arr[3].match(/NORMAL/) %>
+	<% elsif sec.type.match(/NORMAL/) %>
       <div style="height: 72px; overflow: hidden">
-	<% else puts "ERROR: No size for " + arr[3] %>
+	<% else puts "ERROR: No size for " + sec.type %>
         <% end %>
-	<div style="text-align:left; font-size: 8.5px"><%= arr[5] %></div>
+	<div style="text-align:left; font-size: 8.5px"><%= sec.period_text %></div>
 	<p>
-          <%= arr[4] %><br>
-	  <% if arr[3].match(/FREE/) %>
+          <%= sec.time_text %><br>
+	  <% if sec.type.match(/FREE/) %>
 	  <% else %>
-	  <% sec = Section.find_by(name: arr[0]) %>
-          <%= link_to(arr[0], sec, remote: true) %><br>
-	  <%= shorten_name arr[1] %><br>
-          <%= arr[2] %>
+	  <% sect = Section.find_by(name: sec.name) %>
+          <%= link_to(sec.name, sect, remote: true) %><br>
+	  <%= shorten_name sec.teacher_name %><br>
+          <%= sec.room %>
 	  <% end %>
 	</p>
       </div>
