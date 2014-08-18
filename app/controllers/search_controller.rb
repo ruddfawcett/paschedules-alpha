@@ -32,6 +32,7 @@ class SearchController < ApplicationController
       end
       q = nil
     end
+    @students = @students.to_a
     @students.uniq!
     @students.sort! { |a, b| a.last_name.downcase <=> b.last_name.downcase }
     @students_count = @students.size
@@ -48,6 +49,7 @@ class SearchController < ApplicationController
       end
       q = nil
     end
+    @teachers = @teachers.to_a
     @teachers.uniq!
     @teachers.sort! { |a, b| a.last_name.downcase <=> b.last_name.downcase }
     @teachers_count = @teachers.size
@@ -64,6 +66,7 @@ class SearchController < ApplicationController
       end
       q = nil
     end
+    @courses = @courses.to_a
     @courses.uniq!
     @courses.sort! { |a, b| a.name.downcase <=> b.name.downcase }
     @courses_count = @courses.size

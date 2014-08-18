@@ -22,7 +22,8 @@ end
 # Database Gems
 gem 'pg', '~> 0.17.1'
 gem 'yaml_db', github: 'jetthoughts/yaml_db', ref: 'fb4b6bd7e12de3cffa93e0a298a1e5253d7e92ba' #Need this host because one on rubygems has a bug
-gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4"
+gem "polyamorous", :github => "activerecord-hackery/polyamorous"
+gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4.1"
 
 # Front-end Gems
 gem 'sass-rails', '~> 4.0.0'

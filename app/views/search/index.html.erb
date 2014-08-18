@@ -9,7 +9,7 @@
 
 <div id="tabPaneContent" class="tab-content">
   <div id="students" class="tab-pane active">
-    <h4><%= @students_count %> students</h4>
+    <h4><%= pluralize @students_count, "student" %></h4>
     <%= "No students match your search terms" if @students.size == 0 %>
     <table class="table table-striped">
       <% @students.each do |s| %>
@@ -19,7 +19,7 @@
     <%= paginate @students, params: {tab: "students"}, param_name: "students_page" %>
   </div>
   <div id="teachers" class="tab-pane">
-    <h4><%= @teachers_count %> teachers</h4>
+    <h4><%= pluralize @teachers_count, "teacher" %></h4>
     <%= "No teachers match your search terms" if @teachers.size == 0 %>
     <table class="table table-striped">
       <% @teachers.each do |s| %>
@@ -29,7 +29,7 @@
     <%= paginate @teachers, params: {tab: "teachers"}, param_name: "teachers_page" %>
   </div>
   <div id="courses" class="tab-pane">
-    <h4><%= @courses_count %> courses</h4>
+    <h4><%= pluralize @courses_count, "course" %></h4>
     <%= "No courses match your search terms" if @courses.size == 0 %>
     <table class="table table-striped">
       <% @courses.each do |s| %>
