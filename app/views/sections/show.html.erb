@@ -1,4 +1,16 @@
-<h1><%= link_to @section.name.gsub(/(.+)-\d+/, '\1'), @section.course %>-<%= @section.name.gsub(/.+-(\d+)/, '\1') %></h1>
-<% @section.students.each do |s| %>
-<p><%= render s %></p>
-<% end %>
+<h1><%= link_to @section.course.supercourse.title, @section.course.supercourse %></h1>
+<h1><%= @section.name %><%= " - " unless @section.course.supercourse.title == "Lunch" %><%= (link_to(@section.course.teacher.full_name, @section.course.teacher)) unless @section.course.supercourse.title == "Lunch" %></h1>
+<h4><%= get_period @section %> Period</h4>
+<h4><%= @section.students.count %> students</h4>
+<table class="table table-striped">
+  <tr>
+    <th>Name</th>
+    <th>Year</th>
+  </tr>
+  <% @section.students.each do |s| %>
+    <tr>
+      <td><%= link_to pref_name_form(s), s %></td>
+      <td><%= s.grad_year %></td>
+    </tr>
+  <% end %>
+</table>

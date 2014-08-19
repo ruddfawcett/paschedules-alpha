@@ -1,5 +1,5 @@
 <% provide :title, @student.full_name %>
-<h1><%= @student.full_name %></h1>
+<h1><%= pref_name_form(@student) + " - " + @student.grad_year %></h1>
 <center> <%= link_to "Download Schedule", student_path(@student, format: :png) %> </center> <br>
 <div class="col-md-8 col-lg-offset-2 col-lg-6">
   <div class="schedule">

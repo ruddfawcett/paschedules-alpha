@@ -2,7 +2,7 @@ FinalProject::Application.routes.draw do
 
   resources :sections, only: [:show]
   resources :students, only: [:show, :names]
-  resources :courses, only: [:show]
+  # resources :courses, only: [:show]
   resources :commitments, only: [:show]
   resources :teachers, only: [:show, :names]
   resources :search, only: [:index]

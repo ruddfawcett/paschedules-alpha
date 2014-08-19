@@ -1,7 +1,21 @@
-<h1><%= link_to @section.name.gsub(/(.+)-\d+/, '\1'), @section.course %>-<%= @section.name.gsub(/.+-(\d+)/, '\1') %></h1>
-<h4><%= @section.students.count %> students</h4>
-<% @students.each do |s| %>
-<p><%= render s %></p>
+<h3><%= link_to @section.course.supercourse.title, @section.course.supercourse %></h3>
+<%= @section.name %><br>
+<% if @section.course.supercourse.title != "Lunch" %>
+  <%= link_to @section.course.teacher.full_name, @section.course.teacher %><br>
 <% end %>
+<%= get_period @section %> period<br>
+<%= @section.students.count %> students<br><br>
+<table class="table table-striped table-condensed">
+  <tr>
+    <th>Name</th>
+    <th>Year</th>
+  </tr>
+  <% @students.each do |s| %>
+    <tr>
+      <td><%= link_to s.full_name, s %></td>
+      <td><%= s.grad_year %></td>
+    </tr>
+  <% end %>
+</table>
 <%= paginate @students, remote: true %>
 

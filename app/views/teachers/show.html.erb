@@ -1,5 +1,21 @@
 <h1><%= @teacher.full_name %></h1>
-<p>Courses Taught</p>
-<% @teacher.courses.each do |c| %>
-<p><%= link_to c.name, c %></p>
+<center><h3><%= @teacher.department %></h3></center>
+<% if @sections.count == 0 %>
+  No sections found for this teacher.
+<% else %>
+  <p>Sections taught</p>
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>Period</th>
+      <th>Class size</th>
+    </tr>
+    <% @sections.each do |s| %>
+    <tr>
+      <td><%= link_to s.name, s %></td>
+      <td><%= get_period s %></td>
+      <td><%= s.students.count %></td>
+    </tr>
+    <% end %>
+  </table>
 <% end %>

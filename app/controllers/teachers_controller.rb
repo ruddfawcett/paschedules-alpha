@@ -13,5 +13,12 @@ class TeachersController < ApplicationController
 
   def show
     @teacher = Teacher.find(params[:id])
+    @sections = Array.new(0)
+    @teacher.courses.each do |c|
+      c.sections.each do |s|
+        @sections << s
+      end
+    end
+    @sections.sort! { |a, b| a.name <=> b.name }
   end
 end

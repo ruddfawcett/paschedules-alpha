@@ -1,8 +1,4 @@
 <tr>
-  <td><%= link_to person.full_name, person %></td>
-  <% if person.type == "Student" %>
-  <td><%= person.grad_year %></td>
-  <% else %>
-  <td><%= person.department %></td>
-  <% end %>
+  <td><%= link_to person.full_name + (person.pref_name && person.pref_name != person.first_name ? " (" + person.pref_name + ")" : ""), person %></td>
+  <td><%= person.type == "Student" ? person.grad_year : person.department %></td>
 </tr>

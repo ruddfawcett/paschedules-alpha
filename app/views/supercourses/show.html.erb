@@ -1,5 +1,20 @@
-<h1><%= @course.name + ": " + @course.title %></h1>
-<p>Teachers that teach this course</p>
-<% @course.courses.each do |s| %>
-<p><%= link_to s.teacher.full_name, s %></p>
+<h1><%= @course.title %></h1>
+<h1><%= @course.name %></h1><br>
+<table class="table table-striped">
+<tr>
+  <th>Section</th>
+  <th>Teacher</th>
+  <th>Period</th>
+  <th>Class size</th>
+<% @courses.each do |c| %>
+  <% @sections[c].each do |s| %>
+    <tr>
+      <td><%= link_to s.name, s %></td>
+      <td><%= link_to c.teacher.full_name, c.teacher %></td>
+      <td><%= get_period s %></td>
+      <td><%= s.students.count %></td>
+    </tr>
+  <% end %>
 <% end %>
+</table>
+

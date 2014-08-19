@@ -23,4 +23,12 @@ module StudentsHelper
     end
     out
   end
+
+  def pref_name_form(person)
+    out = person.full_name
+    if person.first_name != person.pref_name && !person.pref_name.nil? && !person.pref_name.match(/^[[:space:]]+$/)
+      out += " (#{person.pref_name})"
+    end
+    out
+  end
 end
