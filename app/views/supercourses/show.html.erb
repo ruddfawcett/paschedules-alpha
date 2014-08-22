@@ -7,7 +7,7 @@
   <th>Period</th>
   <th>Class size</th>
 <% @courses.each do |c| %>
-  <% @sections[c].each do |s| %>
+  <% c.sections.sort_by(&:name).each do |s| %>
     <tr>
       <td><%= link_to s.name, s %></td>
       <td><%= link_to c.teacher.full_name, c.teacher %></td>
