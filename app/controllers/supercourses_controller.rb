@@ -1,7 +1,7 @@
 class SupercoursesController < ApplicationController
   def show
     @course = Supercourse.find(params[:id])
-    @courses = @course.courses.sort_by { |x| x.teacher.last_name }
+    @courses = @course.courses.includes(:teacher).sort_by { |x| x.teacher.last_name }
     # if @course.courses.count == 1
     #   redirect_to @course.courses.first
     # end

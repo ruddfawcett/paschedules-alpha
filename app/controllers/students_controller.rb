@@ -27,7 +27,7 @@ class StudentsController < ApplicationController
       raise ActionController::RoutingError.new('Not Found')
     end
     @schedule = {}
-    @student.sections.each do |s|
+    @student.sections.includes(course: :teacher).each do |s|
       unless s.times.nil?
         s.times.split.each do |per|
           @schedule[per.to_i] = SectionView.new(s.name, s.course.teacher.full_name, s.room)
