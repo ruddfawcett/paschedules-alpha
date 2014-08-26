@@ -15,9 +15,10 @@ else
     rake schedules:convertToCommitments
     # Dump the database. -T users excludes the users table
     now=$(date +"%m_%d_%Y-%H_%M_%S")
-    filename="data-$now.gz"
+    filename="schedules-$now"
     ruby scheduleDump.rb "/home/jake/scheduleArchive/$filename"
     aws s3 cp "/home/jake/scheduleArchive/$filename" s3://paschedules-archive/
+    sleep 10   # S3 takes a little while to process
     echo "Restoring to heroku at $now" >> log/heroku_restore.log
     heroku run ruby scheduleRestore.rb "https://paschedules-archive.s3.amazonaws.com/$filename" &>> log/heroku_restore.log
 fi
