@@ -5,7 +5,7 @@ namespace :schedules do
       USERNAME = readLogin[0]
       PASSWORD = readLogin[1]
       logInfo "Starting to parse Directory..."
-      browser = Watir::Browser.new :firefox #, profile: 'default'
+      browser = Watir::Browser.new :firefox, profile: 'schedules'
 
       browser.goto('https://portal.vpn.andover.edu/Login/Login')
       browser.text_field(id: 'userName').set(USERNAME)
@@ -92,7 +92,7 @@ namespace :schedules do
       USERNAME = readLogin[0]
       PASSWORD = readLogin[1]
       logInfo "Starting to parse IDs..."
-      browser = Watir::Browser.new :firefox #, profile: 'default'
+      browser = Watir::Browser.new :firefox, profile: 'schedules'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
       browser.iframes[1].text_field(name: 'user_id').set(USERNAME)
@@ -166,7 +166,7 @@ namespace :schedules do
       PASSWORD = readLogin[1]
       logInfo "Starting to parse schedules..."
       # require 'pp'
-      browser = Watir::Browser.new #:firefox, profile: 'default'
+      browser = Watir::Browser.new :firefox, profile: 'schedules'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
       browser.iframes[1].text_field(name: 'user_id').set(USERNAME)
