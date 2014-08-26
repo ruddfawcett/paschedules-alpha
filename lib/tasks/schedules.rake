@@ -5,7 +5,7 @@ namespace :schedules do
       USERNAME = readLogin[0]
       PASSWORD = readLogin[1]
       logInfo "Starting to parse Directory..."
-      browser = Watir::Browser.new :firefox, profile: 'default'
+      browser = Watir::Browser.new :firefox #, profile: 'default'
 
       browser.goto('https://portal.vpn.andover.edu/Login/Login')
       browser.text_field(id: 'userName').set(USERNAME)
@@ -92,16 +92,17 @@ namespace :schedules do
       USERNAME = readLogin[0]
       PASSWORD = readLogin[1]
       logInfo "Starting to parse IDs..."
-      browser = Watir::Browser.new :firefox, profile: 'default'
+      browser = Watir::Browser.new :firefox #, profile: 'default'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
       browser.iframes[1].text_field(name: 'user_id').set(USERNAME)
       browser.iframes[1].text_field(name: 'password').set(PASSWORD)
       browser.iframes[1].button.click
-      browser.iframes[1].link(text: 'My Schedule').click
+      browser.iframes[1].link(text: 'Schedule Search').click
       browser.window(title: 'Blackboard Learn').close
-      STUID = browser.url.sub(/.+stuid=([0-9]{7}).+/, '\1') #This will make it wait till the page loads
-      browser.link(text: "Search").click
+      #STUID = browser.url.sub(/.+stuid=([0-9]{7}).+/, '\1') #This will make it wait till the page loads
+      STUID = "0483825"
+      #browser.link(text: "Search").click
 
       Student.all.each do |stu| # Iterate through all students, search by name, give them an ID
         next unless stu.pa_id.nil? #If they already have an ID then skip it
@@ -118,6 +119,7 @@ namespace :schedules do
           stu.save
         else
           logWarn "Multi Match with person #{stu.full_name}"
+          next # Currently schedules are down...
           browser.tables[1].to_a.last[1].split("\n").each do |s| # Visit each student's schedule, and
             next unless s.include?("Student")                    # check email addresses to assign the
             browser.link(text: s).click                          # correct ID to a student
@@ -212,7 +214,9 @@ namespace :schedules do
               teacher = Teacher.where(last_name: teacherName.split('.').last.strip)
 
               if teacher.length == 0
-                logError "No teachers for section #{secName} for student #{stu.full_name}"
+                finalTeacher = Teacher.where(last_name: teacherName.split('.').last.strip).first_or_create
+                logWarn "Creating teacher #{finalTeacher.last_name}" # HACK HACK HACK
+                #logError "No teachers for section #{secName} for student #{stu.full_name}"
               elsif teacher.length == 1
                 finalTeacher = teacher.first
               else

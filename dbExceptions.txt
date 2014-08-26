@@ -1,3 +1,13 @@
 Kathryn J. McQuade 
 kmcquade@andover.edu
 Teacher.create(full_name: "Kathryn J. McQuade", first_name: "Kathryn", last_name: "McQuade", email: "kmcquade@andover.edu")
+Annabelle M. Hicks
+O.X.. Offley Woodbine
+[08/26/14 - 01:01:36] INFO: Starting to parse schedules...
+[08/26/14 - 01:07:59] WARNING: Creating teacher Shoemaker
+[08/26/14 - 01:11:26] WARNING: Creating teacher McDonough
+[08/26/14 - 01:12:06] WARNING: Creating teacher Kim
+[08/26/14 - 01:16:35] WARNING: Creating teacher Bair O'Keeffe
+[08/26/14 - 01:27:06] WARNING: Creating teacher Cadarette
+[08/26/14 - 01:42:12] WARNING: Creating teacher Washington
+
