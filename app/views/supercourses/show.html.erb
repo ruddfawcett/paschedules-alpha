@@ -3,14 +3,18 @@
 <table class="table table-striped">
 <tr>
   <th>Section</th>
+  <% unless @course.name == "LUNC-100" %>
   <th>Teacher</th>
+  <% end %>
   <th>Period</th>
   <th>Class size</th>
 <% @courses.each do |c| %>
   <% c.sections.order(:name).each do |s| %>
     <tr>
       <td><%= link_to s.name, s %></td>
+      <% unless @course.name == "LUNC-100" %>
       <td><%= link_to c.teacher.full_name, c.teacher %></td>
+      <% end %>
       <td><%= get_period s %></td>
       <td><%= s.students.count %></td>
     </tr>
