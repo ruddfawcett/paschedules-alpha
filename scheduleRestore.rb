@@ -1,5 +1,4 @@
 require 'pstore'
-require 'pry'
 require File.expand_path("config/environment.rb")
 
 infile = ARGV.pop
