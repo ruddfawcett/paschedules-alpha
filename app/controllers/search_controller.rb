@@ -23,6 +23,7 @@ class SearchController < ApplicationController
     
     @students = []
     arr.each_with_index do |a, idx|
+      next if a.match(/[()]/)
       q = Student.search(full_name_or_first_name_or_last_name_or_pref_name_cont: a)
       if idx == 0
         @students = q.result(distinct: true)
