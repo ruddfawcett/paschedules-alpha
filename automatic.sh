@@ -9,6 +9,7 @@ else
     source /usr/local/rvm/environments/ruby-2.0.0-p451@rails
     rake db:reset
     ruby scheduleRestore.rb https://paschedules_archive.s3.amazonaws.com/base_ids-08_26_2014
+    xpra start :77
     DISPLAY=:77 rake schedules:parseSchedules
     rake schedules:purgeBlankSchedules
     rake schedules:convertToCommitments
