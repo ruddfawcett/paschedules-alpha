@@ -1,5 +1,4 @@
 require 'open-uri'
-require 'pry'
 require File.expand_path("config/environment.rb")
 
 infile = ARGV.pop
@@ -12,7 +11,7 @@ end
 open(infile) do |file|
   @store = Marshal.load(file)
 end
-binding.pry
+
 def store.restore_model(klass)
   klass.destroy_all
   self[klass.table_name].each do |x|

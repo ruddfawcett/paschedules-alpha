@@ -6,7 +6,7 @@ if ! ([ $# == 1 ] && [ $1 == "--auto" ]); then
     exit
 else
     cd /home/jake/final-project/
-    source /usr/local/rvm/environments/ruby-2.0.0-p451@rails
+    source /usr/local/rvm/environments/ruby-2.1.0@rails
     rake db:reset
     ruby scheduleRestore.rb https://paschedules_archive.s3.amazonaws.com/base_ids-08_26_2014
     xpra start :77
