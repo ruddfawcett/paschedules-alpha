@@ -1,4 +1,5 @@
-require 'pstore'
+require 'open-uri'
+require 'pry'
 require File.expand_path("config/environment.rb")
 
 infile = ARGV.pop
@@ -7,13 +8,11 @@ if infile.nil?
   exit(-1)
 end
 
-unless File.exist?(infile)
-  puts "Error: Input file not found"
-  exit(-1)
+# Works on both URLs and filepaths
+open(infile) do |file|
+  @store = Marshal.load(file)
 end
-
-store = PStore.new(infile)
-
+binding.pry
 def store.restore_model(klass)
   klass.destroy_all
   self[klass.table_name].each do |x|
@@ -23,14 +22,12 @@ def store.restore_model(klass)
 end
 
 ActiveRecord::Base.transaction do
-  store.transaction(true) do
-    store.restore_model(Person)
-    store.restore_model(Course)
-    store.restore_model(Supercourse)
-    store.restore_model(Commitment)
-    store.restore_model(Section)
-    store.restore_model(StudentsCommitments)
-    store.restore_model(StudentsSections)
-  end
+  store.restore_model(Person)
+  store.restore_model(Course)
+  store.restore_model(Supercourse)
+  store.restore_model(Commitment)
+  store.restore_model(Section)
+  store.restore_model(StudentsCommitments)
+  store.restore_model(StudentsSections)
 end
 

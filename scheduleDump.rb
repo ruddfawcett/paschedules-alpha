@@ -1,4 +1,3 @@
-require 'pstore'
 require File.expand_path("config/environment.rb")
 
 outfile = ARGV.pop
@@ -17,18 +16,20 @@ if File.exist?(outfile)
   end
 end
 
-store = PStore.new(outfile)
+@store = {}
 
-def store.dump_model(klass)
-  self[klass.table_name] = klass.all.to_a
+def dump_model(klass)
+  @store[klass.table_name] = klass.all.to_a
 end
 
-store.transaction do
-  store.dump_model(Person)
-  store.dump_model(Course)
-  store.dump_model(Supercourse)
-  store.dump_model(Commitment)
-  store.dump_model(Section)
-  store.dump_model(StudentsCommitments)
-  store.dump_model(StudentsSections)
+dump_model(Person)
+dump_model(Course)
+dump_model(Supercourse)
+dump_model(Commitment)
+dump_model(Section)
+dump_model(StudentsCommitments)
+dump_model(StudentsSections)
+
+File.open(outfile, 'w') do |file|
+  Marshal.dump(@store, file)
 end

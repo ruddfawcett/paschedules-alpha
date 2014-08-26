@@ -144,11 +144,19 @@ namespace :schedules do
   desc "Add Extra People due to PA's database inconsistencies"
   task addExceptions: :environment do
     Teacher.create # Add a teacher with nil everything for lunch courses
-    Teacher.create(full_name: "Kathryn J. McQuade", first_name: "Kathryn", # Create this because, for some inexplicable reason,
-                   last_name: "McQuade", email: "kmcquade@andover.edu")    # this person isn't in the Namescape rDirectory here
-    Student.create(full_name: "Angela J. Gu", first_name: "Angela", 
-                   last_name: "Gu", email: "agu@andover.edu", 
-                   pa_id: "0500879", grad_year: "2015")
+    Teacher.create(full_name: 'Lionel B. Amanfu',      email: 'lamanfu@andover.edu',      first_name: 'Lionel',    last_name: 'Amanfu',          department: 'Math, Stats and Computer Science')
+    Teacher.create(full_name: 'Spencer G. Diamond',    email: 'sdiamond@andover.edu',     first_name: 'Spencer',   last_name: 'Diamond',         department: 'Physics')
+    Teacher.create(full_name: "Kristin Bair O'Keeffe", email: 'kbairokeeffe@andover.edu', first_name: 'Kristin',   last_name: "Bair O'Keeffe",   department: 'English') # 'Director of Publications'
+    Teacher.create(full_name: 'Kathryn J. McQuade',    email: 'kmcquade@andover.edu',     first_name: 'Kathryn',   last_name: 'McQuade',         department: 'English') #  but teaches ENGL-200
+    Teacher.create(full_name: 'Annabelle M. Hicks',    email: 'ahicks@andover.edu',       first_name: 'Annabelle', last_name: 'Hicks',           department: 'French')
+    Teacher.create(full_name: 'O.X. Offley Woodbine',  email: 'owoodbine@andover.edu',    first_name: 'O.X.',      last_name: 'Offley Woodbine', department: 'Philosophy and Religious Studies')
+    Teacher.create(full_name: 'Reem I. Hussein',       email: 'rhussein@andover.edu',     first_name: 'Reem',      last_name: 'Hussein',         department: 'Biology')
+    Teacher.create(full_name: 'Amy Shoemaker',         email: 'ashoemaker@andover.edu',   first_name: 'Amy',       last_name: 'Shoemaker',       department: 'Math, Stats and Computer Science')
+    Teacher.create(full_name: 'Julianne L. McDonough', email: 'jmcdonough1@andover.edu',  first_name: 'McDonough', last_name: 'McDonough',       department: 'Chemistry')
+    Teacher.create(full_name: 'Stephen Kim',           email: 'skim@andover.edu',         first_name: 'Stephen',   last_name: 'Kim',             department: 'English')
+    Teacher.create(full_name: 'Daniel Cadarette',      email: 'dcadarette@andover.edu',   first_name: 'Daniel',    last_name: 'Cadarette',       department: 'English')
+    Teacher.create(full_name: 'Amanda F. Washington',  email: 'awashington@andover.edu',  first_name: 'Amanda',    last_name: 'Washington',      department: 'Spanish')
+    Teacher.create(full_name: 'Yue Cao',               email: 'ycao@andover.edu',         first_name: 'Yue',       last_name: 'Cao',             department: 'Math, Stats and Computer Science')
   end
 
   desc "Parse the Schedules. Parse IDs BEFORE this!"
@@ -207,16 +215,14 @@ namespace :schedules do
               finalTeacher = Teacher.find_by(full_name: nil)
             elsif teacherName == "D. Figarella-Zawil" # Inconsistency in PA's databases...imagine that
               finalTeacher = Teacher.find_by(full_name: "Diana F. Zawil")
-            elsif teacherName == "K. Doba" # YAY MORE INCONSISTENCY!!!!
+            elsif teacherName == "K. Doba"
               finalTeacher = Teacher.find_by(full_name: "Khiem DoBa")
             else
               teacherName.gsub!(/(.+), .+/, '\1') # Get rid of a suffix (e.g. John Smith, III)
               teacher = Teacher.where(last_name: teacherName.split('.').last.strip)
 
               if teacher.length == 0
-                finalTeacher = Teacher.where(last_name: teacherName.split('.').last.strip).first_or_create
-                logWarn "Creating teacher #{finalTeacher.last_name}" # HACK HACK HACK
-                #logError "No teachers for section #{secName} for student #{stu.full_name}"
+                logError "No teachers for section #{secName} for student #{stu.full_name}"
               elsif teacher.length == 1
                 finalTeacher = teacher.first
               else

@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+ruby '2.1.0'
 gem 'rails', '4.1.0'
 
 # Heroku
@@ -21,7 +21,6 @@ end
 
 # Database Gems
 gem 'pg', '~> 0.17.1'
-gem 'yaml_db', github: 'jetthoughts/yaml_db', ref: 'fb4b6bd7e12de3cffa93e0a298a1e5253d7e92ba' #Need this host because one on rubygems has a bug
 gem "polyamorous", :github => "activerecord-hackery/polyamorous"
 gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4.1"
 gem "bullet", group: "development"
@@ -31,7 +30,6 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'kaminari', '~> 0.15.1'
-#gem 'kaminari-bootstrap', '~> 3.0.1'
 gem 'twitter-typeahead-rails'
 group :development do
   gem 'rails_layout'

@@ -8,26 +8,15 @@ else
     cd /home/jake/final-project/
     source /usr/local/rvm/environments/ruby-2.0.0-p451@rails
     rake db:reset
-    cp db/fresh-preSchedules.yml db/data.yml
-    rake db:data:load
+    ruby scheduleRestore.rb https://paschedules_archive.s3.amazonaws.com/base_ids-08_26_2014
     DISPLAY=:77 rake schedules:parseSchedules
     rake schedules:purgeBlankSchedules
     rake schedules:convertToCommitments
     # Dump the database. -T users excludes the users table
-    pg_dump -Fc --no-acl --no-owner -h localhost -U jake -T users final_project_development > /tmp/data.dump
-    cp /tmp/data.dump /srv/http/
-    # ;)
-    now=$(date +"%m-%d-%Y--%H:%M:%S")
+    now=$(date +"%m_%d_%Y-%H_%M_%S")
     filename="data-$now.gz"
-    gzip /tmp/data.dump
-    mv /tmp/data.dump.gz "/home/jake/scheduleArchive/$filename"
-    # Eww Eww Eww Eww Eww
-    # cat data.tar.gz | nc -lcp 1357 & heroku run 'nc jherman.no-ip.org 1357 > /app/data.tar.gz'
-    # I'm not sure if this is even more disgusting than the first one...
-    sudo systemctl start httpd
+    ruby scheduleDump.rb "/home/jake/scheduleArchive/$filename"
+    aws s3 cp "/home/jake/scheduleArchive/$filename" s3://paschedules_archive/
     echo "Restoring to heroku at $now" >> log/heroku_restore.log
-    heroku pgbackups:restore DATABASE_URL 'http://jherman.no-ip.org/data.dump' --confirm=paschedules &>> log/heroku_restore.log
-    sudo systemctl stop httpd
-    heroku run rake schedules:updateUserCounter
-    rm /srv/http/data.dump
+    heroku run ruby scheduleRestore.rb "https://paschedules_archive.s3.amazonaws.com/$filename" &>> log/heroku_restore.log
 fi
