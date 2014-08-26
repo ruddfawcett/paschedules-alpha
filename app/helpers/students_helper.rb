@@ -11,6 +11,9 @@ module StudentsHelper
   end
 
   def shorten_name(name)
+    if name.nil? || name.empty?
+      return ""
+    end
     out = ""
     pieces = name.split(' ')
     len = pieces.length
