@@ -5,6 +5,7 @@ gem 'rails', '~>4.1.6'
 # Heroku
 group :production do
       gem 'rails_12factor'
+      gem 'unicorn'
 end
 
 # Parsing Gems
