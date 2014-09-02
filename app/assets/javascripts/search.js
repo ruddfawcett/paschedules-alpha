@@ -1,5 +1,3 @@
-//Javascript not coffee...
-
 var students = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('student'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -19,13 +17,12 @@ var courses = new Bloodhound({
 });
 
 var ready = function() {
+    if ($('#search').length == 0)
+	return;
     // initialize the bloodhound suggestion engine
     students.initialize();
     teachers.initialize();
     courses.initialize();
-    // promise
-    //  .done(function() { console.log('Bloodhound initialized!'); })
-    //  .fail(function() { console.log('Error during Bloodhound initialization!'); });
 
     // instantiate the typeahead UI
     $('#search').typeahead({
@@ -58,8 +55,8 @@ var ready = function() {
         }
     });
     $('#tabPane a').click(function (e) {
-	e.preventDefault()
-	$(this).tab('show')
+	e.preventDefault();
+	$(this).tab('show');
     });
 };
 

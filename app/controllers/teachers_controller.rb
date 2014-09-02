@@ -2,6 +2,7 @@ class TeachersController < ApplicationController
   def names
     names = []
     Teacher.all.each do |s|
+      next if s.full_name.nil?
       str = s.full_name
       if !s.pref_name.nil? && !s.pref_name.match(/^[[:space:]]+$/)
         str += " (" + s.pref_name + ")"

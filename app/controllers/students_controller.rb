@@ -14,6 +14,7 @@ class StudentsController < ApplicationController
   end
   
   def show
+    flash.now[:warning] = "All class lists are incomplete until the 364 new students have finalized their courses and have had their schedules released by the registrar."
     id = params[:id]
     @student = nil # Do you need this? In java/C you would...
     if id.match(/^\d{7}$/)
