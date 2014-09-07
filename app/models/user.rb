@@ -46,6 +46,13 @@ class User < ActiveRecord::Base
       raise 'email is immutable!'
     end
   end 
+  
+  class << self
+    # I'm tired of typing this one-liner into heroku
+    def class_breakdown
+      User.all.map{|x| Student.find_by(email: x.email)}.compact.map{|x| x.grad_year}.each_with_object(Hash.new(0)){|x, hsh| hsh[x] += 1}
+    end
+  end
 
   private
   
