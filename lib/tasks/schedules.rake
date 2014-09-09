@@ -154,7 +154,7 @@ namespace :schedules do
       USERNAME = readLogin[0]
       PASSWORD = readLogin[1]
       logInfo "Starting to parse schedules..."
-      # require 'pp'
+
       browser = Watir::Browser.new :firefox, profile: 'schedules'
 
       browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
@@ -175,6 +175,8 @@ namespace :schedules do
 
         doc = Nokogiri::HTML(browser.html) # Upgraded with Nokogiri
         resultsArray = []
+        unexcused = doc.xpath("//table//tbody//tr[1]//td[3]//font[2]").text.gsub(/[[:space:]]/, '').to_i
+        stu.unexcused = unexcused
         for i in 4..14
           tmpArr = []
           doc.xpath("//table//tbody//tr[#{i}]").text.split("\n").each do |s|
@@ -183,7 +185,7 @@ namespace :schedules do
           end
           resultsArray << tmpArr
         end
-        #browser.tables[0].to_a.each_with_index do |arr, idx| # This tables function is a bit slow...
+
         resultsArray.each do |arr|
           next if arr[0].nil? || arr[0].empty? || arr[0].match(/PROJ/) || arr[0].match(/MUSC-909/) || arr[0].match(/MUSC-910/)
           secName = arr[0].strip

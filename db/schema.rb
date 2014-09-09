@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140415214625) do
+ActiveRecord::Schema.define(version: 20140909223255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20140415214625) do
     t.string   "cluster"
     t.string   "grad_year"
     t.string   "department"
+    t.integer  "unexcused"
   end
 
   create_table "sections", force: true do |t|
