@@ -12,8 +12,8 @@ namespace :schedules do
       browser.text_field(id: 'password').set(PASSWORD)
       browser.button(id: 'Login').click
       browser.link(text: 'Phillips Academy online Directory').click
-      #Watir::Wait.until { browser.text.include? "Advanced.." } # lolwut
-      frame = browser.iframe.iframe # They changed it for some reason...
+      sleep 10
+      frame = browser.iframe.iframe
       flag = frame.buttons[2].visible?
       while flag do
         # Watir-webdriver's table parsing abilities are very user-friendly,
