@@ -7,10 +7,25 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def log_data
-    if user_signed_in?
-      logger.info "User #{current_user.email} requesting #{request.env['PATH_INFO']}."
+    req = request.env['PATH_INFO']
+    case req
+    when /\/students\/(\d+)/
+      info = Student.find($1.to_i).email
+    when /\/supercourses\/(\d+)/
+      info = Supercourse.find($1.to_i).name
+    when /\/sections\/(\d+)/
+      info = Section.find($1.to_i).name
+    when /\/teachers\/(\d+)/
+      info = Teacher.find($1.to_i).email
     else
-      logger.info "Unknown user requesting #{request.env['PATH_INFO']}."
+      info = nil
+    end
+
+    req << " (#{info})" if info
+    if user_signed_in?
+      logger.info "User #{current_user.email} requesting #{req}."
+    else
+      logger.info "Unknown user requesting #{req}."
     end
   end
 
