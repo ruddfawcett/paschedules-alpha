@@ -119,7 +119,6 @@ namespace :schedules do
           stu.save
         else
           logWarn "Multi Match with person #{stu.full_name}"
-          next # Currently schedules are down...
           browser.tables[1].to_a.last[1].split("\n").each do |s| # Visit each student's schedule, and
             next unless s.include?("Student")                    # check email addresses to assign the
             browser.link(text: s).click                          # correct ID to a student
