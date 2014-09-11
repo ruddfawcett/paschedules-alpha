@@ -8,12 +8,11 @@ else
     cd /home/jake/final-project/
     source /usr/local/rvm/environments/ruby-2.1.0@rails
     rake db:reset
-    ruby scheduleRestore.rb https://paschedules-archive.s3.amazonaws.com/base_ids-08_26_2014
+    ruby scheduleRestore.rb https://paschedules-archive.s3.amazonaws.com/base_ids-09_10_2014
     xpra start :77
-    DISPLAY=:77 rake schedules:parseSchedules
-    rake schedules:purgeBlankSchedules
-    rake schedules:convertToCommitments
-    # Dump the database. -T users excludes the users table
+    DISPLAY=:77 rake schedules:parseSchedules &>> log/parser_stdout_stderr.log
+    rake schedules:purgeBlankSchedules &>> log/parser_stdout_stderr.log
+    rake schedules:convertToCommitments &>> log/parser_stdout_stderr.log
     now=$(date +"%m_%d_%Y-%H_%M_%S")
     filename="schedules-$now"
     ruby scheduleDump.rb "/home/jake/scheduleArchive/$filename"
