@@ -1,5 +1,5 @@
 require 'open-uri'
-require File.expand_path("config/environment.rb")
+require_relative "config/environment.rb"
 
 infile = ARGV.pop
 if infile.nil?
