@@ -2,12 +2,11 @@
 #
 # Table name: courses
 #
-#  id         :integer          not null, primary key
-#  teacher_id :integer          not null
-#  name       :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  title      :string(255)
+#  id             :integer          not null, primary key
+#  teacher_id     :integer          not null
+#  created_at     :datetime
+#  updated_at     :datetime
+#  supercourse_id :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

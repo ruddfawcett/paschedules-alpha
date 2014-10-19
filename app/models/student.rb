@@ -14,21 +14,14 @@
 #  updated_at :datetime
 #  cluster    :string(255)
 #  grad_year  :string(255)
+#  department :string(255)
+#  unexcused  :integer
 #
 
 class Student < Person
-  has_many :students_sections, dependent: :destroy
+  has_many :students_sections, class_name: StudentsSections, dependent: :destroy
   has_many :sections, through: :students_sections
 
-  has_many :students_commitments, dependent: :destroy
+  has_many :students_commitments, class_name: StudentsCommitments, dependent: :destroy
   has_many :commitments, through: :students_commitments
-  
-  #Made this before knowing about the << functionality
-  #def link_section(sec)
-  #  ss = StudentsSections.new
-  #  ss.section = sec
-  #  ss.student = self
-  #  ss.save
-  #  self.reload
-  #end
 end

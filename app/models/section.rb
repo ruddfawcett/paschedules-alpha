@@ -13,6 +13,6 @@
 
 class Section < ActiveRecord::Base
   belongs_to :course
-  has_many :students_sections, dependent: :destroy
+  has_many :students_sections, class_name: StudentsSections, dependent: :destroy
   has_many :students, through: :students_sections
 end

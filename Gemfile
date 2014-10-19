@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
-ruby '2.1.0'
-gem 'rails', '4.1.0'
+ruby '2.1.3'
+gem 'rails', '~>4.1.6'
 
 # Heroku
 group :production do
@@ -10,7 +10,7 @@ end
 # Parsing Gems
 group :development do
   gem 'nokogiri', '~> 1.6.1'
-  gem 'watir-webdriver', '~> 0.6.4'
+  gem 'watir-webdriver', '~> 0.6.11'
 end
 
 # Testing Gems

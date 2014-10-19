@@ -14,6 +14,8 @@
 #  updated_at :datetime
 #  cluster    :string(255)
 #  grad_year  :string(255)
+#  department :string(255)
+#  unexcused  :integer
 #
 
 class Person < ActiveRecord::Base
