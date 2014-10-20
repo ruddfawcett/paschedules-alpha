@@ -46,6 +46,11 @@ gem 'annotate', '~> 2.6.1'
 gem "devise", "~> 3.2.2"
 gem "imgkit", "~> 1.4.0"
 
+group :development do
+  gem 'pry'
+  gem 'pry-rails'
+end
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
