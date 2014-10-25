@@ -1,4 +1,6 @@
 <% provide :title, @student.full_name %>
+<% cache @student do %>
+<% @schedule = create_schedule_view @student %>
 <h1><%= pref_name_form(@student) + " - " + @student.grad_year %></h1>
 <center> <%= link_to "Download Schedule", student_path(@student, format: :png) %> </center> <br>
 <div class="col-md-8 col-lg-offset-2 col-lg-6">
@@ -166,6 +168,7 @@
   </p>
   <% end %>
 </div>
+<% end %>
 <div class="col-md-4" id="sectionBox">
   <h3>Click a class to view its roster.</h3>
 </div>

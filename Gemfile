@@ -46,6 +46,8 @@ gem 'annotate', '~> 2.6.1'
 gem "devise", "~> 3.2.2"
 gem "imgkit", "~> 1.4.0"
 
+gem 'rack-mini-profiler'
+gem 'dalli'
 group :development do
   gem 'pry'
   gem 'pry-rails'

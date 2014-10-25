@@ -4,7 +4,7 @@
   <%= link_to @section.course.teacher.full_name, @section.course.teacher %><br>
 <% end %>
 <%= get_period @section %> period<br>
-<%= @section.students.count %> students<br><br>
+<%= @students.total_count %> students<br><br>
 <table class="table table-striped table-condensed">
   <tr>
     <th>Name</th>
@@ -18,4 +18,3 @@
   <% end %>
 </table>
 <%= paginate @students, remote: true %>
-
