@@ -29,4 +29,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  if Rails.env.production?
+    rescue_from(ActionView::MissingTemplate) do |e|
+      raise ActionController::RoutingError.new('Not Found')
+    end
+  end
 end
