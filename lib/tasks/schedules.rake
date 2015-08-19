@@ -184,7 +184,7 @@ namespace :schedules do
 
       sleep 10
 
-      browser.window(:title => "Search On-Line Schedules").use
+      browser.window(:title => "Student Schedules").use
       STUID = browser.url.sub(/.+stuid=([0-9]{7}).+/, '\1') #This will make it wait till the page loads
       Student.all.each do |stu|
         begin
