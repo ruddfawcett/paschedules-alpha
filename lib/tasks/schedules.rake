@@ -2,8 +2,8 @@ namespace :schedules do
   desc "Parse the PA Online Directory"
   task parseDirectory: :environment do
     begin
-      USERNAME = 'cmayhew'
-      PASSWORD = 'Geronimo14'
+      USERNAME = readLogin[0]
+      PASSWORD = readLogin[1]
       logInfo "Starting to parse Directory..."
       browser = Watir::Browser.new :firefox, profile: 'schedules'
 
@@ -106,18 +106,24 @@ namespace :schedules do
       logInfo "Starting to parse IDs..."
       browser = Watir::Browser.new :firefox, profile: 'schedules'
 
-      browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
-      browser.iframes[1].text_field(name: 'user_id').set(USERNAME)
-      browser.iframes[1].text_field(name: 'password').set(PASSWORD)
-      browser.iframes[1].button.click
-      browser.iframes[1].link(text: 'Schedule Search').click
-      browser.window(title: 'Blackboard Learn').close
+      browser.goto('https://panet.andover.edu')
+
+      browser.text_field(name: 'user_id').set(USERNAME)
+      browser.text_field(name: 'password').set(PASSWORD)
+      browser.button(value: 'Login').click
+
+      browser.link(text: 'Schedule Search').click
+
+      sleep 10
+
+      browser.window(:title => "Search On-Line Schedules").use
       #STUID = browser.url.sub(/.+stuid=([0-9]{7}).+/, '\1') #This will make it wait till the page loads
-      STUID = "0483825"
+      STUID = "0574372" #your student id
       #browser.link(text: "Search").click
 
       Student.all.each do |stu| # Iterate through all students, search by name, give them an ID
         next unless stu.pa_id.nil? #If they already have an ID then skip it
+
         browser.text_field(name: 'lname').set(stu.last_name)
         browser.text_field(name: 'fname').set(stu.first_name)
         browser.button.click
@@ -168,12 +174,17 @@ namespace :schedules do
 
       browser = Watir::Browser.new :firefox, profile: 'schedules'
 
-      browser.goto('https://panet.andover.edu/webapps/portal/frameset.jsp')
-      browser.iframes[1].text_field(name: 'user_id').set(USERNAME)
-      browser.iframes[1].text_field(name: 'password').set(PASSWORD)
-      browser.iframes[1].button.click
-      browser.iframes[1].link(text: 'My Schedule').click
-      browser.window(title: 'Blackboard Learn').close
+      browser.goto('https://panet.andover.edu')
+
+      browser.text_field(name: 'user_id').set(USERNAME)
+      browser.text_field(name: 'password').set(PASSWORD)
+      browser.button(value: 'Login').click
+
+      browser.link(text: 'My Schedule').click
+
+      sleep 10
+
+      browser.window(:title => "Search On-Line Schedules").use
       STUID = browser.url.sub(/.+stuid=([0-9]{7}).+/, '\1') #This will make it wait till the page loads
       Student.all.each do |stu|
         begin
