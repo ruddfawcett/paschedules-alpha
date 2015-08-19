@@ -2,17 +2,29 @@ namespace :schedules do
   desc "Parse the PA Online Directory"
   task parseDirectory: :environment do
     begin
-      USERNAME = readLogin[0]
-      PASSWORD = readLogin[1]
+      USERNAME = 'cmayhew'
+      PASSWORD = 'Geronimo14'
       logInfo "Starting to parse Directory..."
       browser = Watir::Browser.new :firefox, profile: 'schedules'
 
-      browser.goto('https://portal.vpn.andover.edu/Login/Login')
-      browser.text_field(id: 'userName').set(USERNAME)
-      browser.text_field(id: 'password').set(PASSWORD)
-      browser.button(id: 'Login').click
-      browser.link(text: 'Phillips Academy online Directory').click
-      sleep 10
+      browser.goto('https://sslvpn.andover.edu:10443/remote/login?realm=andover')
+      browser.text_field(id: 'username').set(USERNAME)
+      browser.text_field(id: 'credential').set(PASSWORD)
+      browser.button(id: 'login_button').click
+
+      sleep 1
+
+      if browser.link(text: 'Log in Anyway').exists?
+        browser.link(text: 'Log in Anyway').click
+      end
+
+      sleep 3
+
+      browser.span(title: 'Online Directory').click
+      sleep 20
+
+      browser.window(:title => "Namescape rDirectory 3.0.2 - Enterprise Edition").use
+
       frame = browser.iframe.iframe
       flag = frame.buttons[2].visible?
       while flag do
