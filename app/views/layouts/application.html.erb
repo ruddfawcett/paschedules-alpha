@@ -5,6 +5,8 @@
     <title><%= content_for?(:title) ? "Schedule Search | " + yield(:title) : "Schedule Search" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Schedule Search" %>">
     <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.5/superhero/bootstrap.css" rel="stylesheet"></link>
+    <style>body {padding-top: 70px;}.navbar {border-radius: 0;}</style>
     <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     <%= csrf_meta_tags %>
     <!--[if lt IE 9]>
@@ -12,7 +14,7 @@
     <![endif]-->
     <%= favicon_link_tag 'icon.ico' %>
   </head>
-  <body style="background-color:#EEE">
+  <body>
     <header>
       <%= render 'layouts/navigation' %>
     </header>

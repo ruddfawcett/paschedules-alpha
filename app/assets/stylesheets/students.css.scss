@@ -12,7 +12,8 @@ html {
     background-color: rgba(#FFF, 1);
     border: 1px solid black;
     text-align: center;
-    font-size: 8pt;		 
+    font-size: 8pt;		
+    color: black;
 }
 
 .schCol td {
@@ -26,6 +27,9 @@ html {
     padding-top: 0px;
     a {
       color: rgba(#00A, 1);
+    }
+    p {
+        font-size: 11px;
     }
 }
 
