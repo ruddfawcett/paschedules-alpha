@@ -16,7 +16,8 @@
 /log/*.log
 /tmp
 
-/login_info
+/login_info #first line panet username, second password
+/config/database.yml
 
 doc/
 *.swp
