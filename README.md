@@ -27,6 +27,12 @@ In order to set up paschedules on your machine, perform the following:
 9. Then, run the other tasks, `rake schedules:purgeBlankSchedules`,`rake schedules:convertToCommitments`, and `rake schedules:updateUserCounter`.
 10. Make a backup, and then start the server.  Login with the user you created, and enjoy.
 
+### Restoring Database
+
+If you want to restore a database you have created locally on Heroku, use:
+```bash
+heroku run --app paschedules ruby scheduleRestore.rb {URL}
+```
 
 ### Credits
 
