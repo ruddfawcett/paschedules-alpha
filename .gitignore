@@ -18,7 +18,6 @@
 
 /login_info
 
-/config/database.yml
 doc/
 *.swp
 *~
