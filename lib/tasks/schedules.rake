@@ -197,7 +197,7 @@ namespace :schedules do
 
       browser.window(:title => "Student Schedules").use
       # STUID = browser.url.sub(/.+stuid=([0-9]{7}).+/, '\1') #This will make it wait till the page loads
-      # STUID = "0574372"
+      STUID = "0574372"
       Student.all.each do |stu|
         # next unless stu.sections.count == 0 Use this if you want to find the teachers that aren't in the database
 
