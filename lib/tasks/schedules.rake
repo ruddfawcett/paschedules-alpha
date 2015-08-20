@@ -163,6 +163,17 @@ namespace :schedules do
     Teacher.create # Add a teacher with nil everything for lunch courses
     Teacher.create(full_name: "Kristin Bair O'Keeffe", email: 'kbairokeeffe@andover.edu', first_name: 'Kristin',   last_name: "Bair O'Keeffe",   department: 'English') # 'Director of Publications'
     Teacher.create(full_name: 'Kathryn J. McQuade',    email: 'kmcquade@andover.edu',     first_name: 'Kathryn',   last_name: 'McQuade',         department: 'English') #  but teaches ENGL-200
+    Teacher.create(full_name: 'Denise M. Alfonso', email:'dalfonso@andover.edu', first_name: 'Denise', last_name: 'Alfonso', department: 'Chemistry')
+    Teacher.create(full_name: 'Eliza W. Marks', email:'emarks@andover.edu', first_name: 'Eliza', last_name: 'Marks', department: 'History')
+    Teacher.create(full_name: 'Adela Habib', email:'ahabib@andover.edu', first_name: 'Adela', last_name: 'Habib', department: 'Physics')
+    Teacher.create(full_name: 'Stephen J. O\'Leary', email:'soleary@andover.edu', first_name: 'Stephen', last_name: 'O\'Leary', department: 'Spanish')
+    Teacher.create(full_name: 'Garrett F. Richie', email:'grichie@andover.edu', first_name: 'Denise', last_name: 'Richie', department: 'English')
+    Teacher.create(full_name: 'Andrea L. Acosta', email:'aacosta@andover.edu', first_name: 'Andrea', last_name: 'Acosta', department: 'English')
+    Teacher.create(full_name: 'Carmen Munoz-Fernandez', email:'cmunozfernandez@andover.edu', first_name: 'Carmen', last_name: 'Munoz-Fernandez', department: 'Spanish')
+    Teacher.create(full_name: 'Brendan MacKinson', email:'bmackinson@andover.edu', first_name: 'Brendan', last_name: 'MacKinson', department: 'Chemistry')
+    Teacher.create(full_name: 'Sofia C. Tirado', email:'stirado@andover.edu', first_name: 'Sofia', last_name: 'Tirado', department: 'English')
+    Teacher.create(full_name: 'Alexander A. Djamoos', email:'adjamoos@andover.edu', first_name: 'Alexander', last_name: 'Djamoos', department: 'Russian')
+    Teacher.create(full_name: 'Matthew T. Osborne', email:'mosborne@andover.edu', first_name: 'Matthew', last_name: 'Osborne', department: 'German')
   end
 
   desc "Parse the Schedules. Parse IDs BEFORE this!"
@@ -182,11 +193,14 @@ namespace :schedules do
 
       browser.link(text: 'My Schedule').click
 
-      sleep 10
+      sleep 5
 
       browser.window(:title => "Student Schedules").use
-      STUID = browser.url.sub(/.+stuid=([0-9]{7}).+/, '\1') #This will make it wait till the page loads
+      # STUID = browser.url.sub(/.+stuid=([0-9]{7}).+/, '\1') #This will make it wait till the page loads
+      # STUID = "0574372"
       Student.all.each do |stu|
+        # next unless stu.sections.count == 0 Use this if you want to find the teachers that aren't in the database
+
         begin
           # puts stu.full_name
           if stu.pa_id.nil?
@@ -233,10 +247,12 @@ namespace :schedules do
                 finalTeacher = Teacher.find_by(full_name: "Khiem DoBa")
               else
                 teacherName.gsub!(/(.+), .+/, '\1') # Get rid of a suffix (e.g. John Smith, III)
+
                 teacher = Teacher.where(last_name: teacherName.split('.').last.strip)
 
                 if teacher.length == 0
-                  logError "No teachers for section #{secName} for student #{stu.full_name}"
+
+                  logError "Teacher #{teacherName} for section #{secName} for student #{stu.full_name} (#{stu.pa_id}) is not in databse."
                 elsif teacher.length == 1
                   finalTeacher = teacher.first
                 else
@@ -251,7 +267,7 @@ namespace :schedules do
               end
               #pp finalTeacher
               if finalTeacher.nil?
-                logError "Nil Teacher for section #{secName} for student #{stu.full_name}"
+                logError "Nil Teacher for section #{secName} for student #{stu.full_name} (#{stu.pa_id})"
               end
 
               supercourse = Supercourse.where(name: courseName, title: secTitle).first_or_create
