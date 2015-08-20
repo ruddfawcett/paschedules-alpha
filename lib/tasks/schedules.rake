@@ -429,6 +429,11 @@ def logInfo(str)
   puts str
 end
 
+def logSuccess(str)
+  str = getTimeString + "SUCCESS" + str
+  RAils.logger.info str
+  puts str
+
 def logError(str)
   str = getTimeString + "ERROR: " + str
   Rails.logger.error str
