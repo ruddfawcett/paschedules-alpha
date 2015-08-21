@@ -433,6 +433,7 @@ def logSuccess(str)
   str = getTimeString + "SUCCESS" + str
   RAils.logger.info str
   puts str
+end
 
 def logError(str)
   str = getTimeString + "ERROR: " + str
