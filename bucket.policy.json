@@ -1,0 +1,31 @@
+{
+	"Id": "Policy1440129936546",
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "Stmt1440129881546",
+			"Action": [
+				"s3:PutObject",
+				"s3:PutObjectAcl"
+			],
+			"Effect": "Allow",
+			"Resource": "arn:aws:s3:::paschedules-archives/*",
+			"Condition": {
+				"StringEquals": {
+					"aws:username": "ruddfawcett"
+				}
+			},
+			"Principal": "*"
+		},
+		{
+			"Sid": "Stmt1440129935331",
+			"Action": [
+				"s3:GetObject",
+				"s3:GetObjectAcl"
+			],
+			"Effect": "Allow",
+			"Resource": "arn:aws:s3:::paschedules-archives/*",
+			"Principal": "*"
+		}
+	]
+}
