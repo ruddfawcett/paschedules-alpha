@@ -73,3 +73,4 @@ doc/
 /backups/
 
 login_info
+/config/database.yml
