@@ -100,6 +100,7 @@ namespace :schedules do
   end
   desc "Parse the IDs. Parse directory BEFORE this!"
   task parseIds: :environment do
+    Rake::Task["schedules:removeSeniors"].invoke
     begin
       USERNAME = readLogin[0]
       PASSWORD = readLogin[1]
@@ -179,6 +180,7 @@ namespace :schedules do
   desc "Parse the Schedules. Parse IDs BEFORE this!"
   task parseSchedules: :environment do
     begin
+      Rake::Task["schedules:removeSeniors"].invoke
       USERNAME = readLogin[0]
       PASSWORD = readLogin[1]
       logInfo "Starting to parse schedules..."
@@ -419,7 +421,6 @@ namespace :schedules do
   desc "Remove seniors"
   task removeSeniors: :environment do
     Student.where(grad_year: "2015").destroy_all
-    Rake::Task["schedules:updateUserCounter"].invoke
   end
 
   desc "Reset the User counter to the latest user"
