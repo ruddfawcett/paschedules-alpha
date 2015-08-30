@@ -28,3 +28,4 @@ doc/
 .env
 
 /backups/
+/config/database.yml
