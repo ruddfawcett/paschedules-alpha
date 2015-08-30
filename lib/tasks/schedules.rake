@@ -416,6 +416,12 @@ namespace :schedules do
     end
   end
 
+  desc "Remove seniors"
+  task removeSeniors: :environment do
+    Student.where(grad_year: "2015").destroy_all
+    Rake::Task["schedules:updateUserCounter"].invoke
+  end
+
   desc "Reset the User counter to the latest user"
   task updateUserCounter: :environment do
     id = User.last.id
