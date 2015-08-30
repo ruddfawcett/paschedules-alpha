@@ -14,7 +14,7 @@ development:
   encoding: unicode
   database: paschedules_development
   pool: 5
-  username: ruddfawcett
+  username: rudd
   password:
 
 test:
@@ -22,7 +22,7 @@ test:
   encoding: unicode
   database: paschedules_test
   pool: 5
-  username: ruddfawcett
+  username: rudd
   password:
 
 production:
@@ -30,5 +30,5 @@ production:
   encoding: unicode
   database: paschedules_production
   pool: 5
-  username: ruddfawcett
+  username: rudd
   password:
