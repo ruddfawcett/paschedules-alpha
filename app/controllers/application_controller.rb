@@ -2,13 +2,13 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user! unless Rails.env.test?
   before_filter :log_data
 
-  before_filter :original_url
-
-  def original_url
-    if request.original_url.include? 'herokuapp'
-      redirect_to 'http://paschedul.es'
-    end
-  end
+  # before_filter :original_url
+  #
+  # def original_url
+  #   if request.original_url.include? 'herokuapp'
+  #     redirect_to 'http://paschedul.es'
+  #   end
+  # end
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
