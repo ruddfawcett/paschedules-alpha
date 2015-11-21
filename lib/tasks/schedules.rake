@@ -163,18 +163,17 @@ namespace :schedules do
     Teacher.create # Add a teacher with nil everything for lunch courses
     Teacher.create(full_name: "Kristin Bair O'Keeffe", email: 'kbairokeeffe@andover.edu', first_name: 'Kristin',   last_name: "Bair O'Keeffe",   department: 'English') # 'Director of Publications'
     Teacher.create(full_name: 'Kathryn J. McQuade',    email: 'kmcquade@andover.edu',     first_name: 'Kathryn',   last_name: 'McQuade',         department: 'English') #  but teaches ENGL-200
-    Teacher.create(full_name: 'Denise M. Alfonso', email:'dalfonso@andover.edu', first_name: 'Denise', last_name: 'Alfonso', department: 'Chemistry')
-    Teacher.create(full_name: 'Eliza W. Marks', email:'emarks@andover.edu', first_name: 'Eliza', last_name: 'Marks', department: 'History')
-    Teacher.create(full_name: 'Adela Habib', email:'ahabib@andover.edu', first_name: 'Adela', last_name: 'Habib', department: 'Physics')
-    Teacher.create(full_name: 'Stephen J. O\'Leary', email:'soleary@andover.edu', first_name: 'Stephen', last_name: 'O\'Leary', department: 'Spanish')
-    Teacher.create(full_name: 'Garrett F. Richie', email:'grichie@andover.edu', first_name: 'Denise', last_name: 'Richie', department: 'English')
-    Teacher.create(full_name: 'Andrea L. Acosta', email:'aacosta@andover.edu', first_name: 'Andrea', last_name: 'Acosta', department: 'English')
+    Teacher.create(full_name: 'Jacob M. Josef', email:'jjosef@andover.edu', first_name: 'Jacob', last_name: 'Josef', department: 'Theater')
     Teacher.create(full_name: 'Carmen Munoz-Fernandez', email:'cmunozfernandez@andover.edu', first_name: 'Carmen', last_name: 'Munoz-Fernandez', department: 'Spanish')
-    Teacher.create(full_name: 'Brendan MacKinson', email:'bmackinson@andover.edu', first_name: 'Brendan', last_name: 'MacKinson', department: 'Chemistry')
-    Teacher.create(full_name: 'Sofia C. Tirado', email:'stirado@andover.edu', first_name: 'Sofia', last_name: 'Tirado', department: 'English')
-    Teacher.create(full_name: 'Alexander A. Djamoos', email:'adjamoos@andover.edu', first_name: 'Alexander', last_name: 'Djamoos', department: 'Russian')
-    Teacher.create(full_name: 'Matthew T. Osborne', email:'mosborne@andover.edu', first_name: 'Matthew', last_name: 'Osborne', department: 'German')
+	Teacher.create(full_name: 'Brendan MacKinson', email:'bmackinson@andover.edu', first_name: 'Brendan', last_name: 'MacKinson', department: 'Chemistry')
+    Teacher.create(full_name: 'Stephanie A. Cormier', email:'scormier@andover.edu', first_name: 'Stephanie', last_name: 'Cormier', department: 'Student Activities')
+    Teacher.create(full_name: 'Anny Candelario-Escobar', email:'acandelarioescobar@andover.edu', first_name: 'Stephanie', last_name: 'Candelario-Escobar', department: 'Mathematics, Statistics, and Computer Science')
   end
+
+	desc "Remove seniors!"
+	task removeSeniors: :environment do
+		Student.where(grad_year: "2015").destroy_all
+	end
 
   desc "Parse the Schedules. Parse IDs BEFORE this!"
   task parseSchedules: :environment do

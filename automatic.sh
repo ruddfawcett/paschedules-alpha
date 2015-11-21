@@ -11,7 +11,8 @@ else
     
     rake db:reset
     
-    ruby scheduleRestore.rb https://paschedules-archives.s3.amazonaws.com/base_ids-08-19-2015.zip
+    ruby scheduleRestore.rb https://paschedules-archives.s3.amazonaws.com/base_ids-11-21-2015.zip
+    rake schedules:removeSeniors
     
     if [ $2 == "--add-exceptions" ]
         then
@@ -24,7 +25,7 @@ else
     rake schedules:purgeBlankSchedules >> log/parser_automatic.log
     rake schedules:convertToCommitments >> log/parser_automatic.log
     
-	now=$(date +"%m-%d-%Y") #-%H_%M_%S
+	now=$(date +"%m-%d-%Y-%H_%M_%S")
 	filename="schedules-$now.zip"
 	
 	bundle exec ruby scheduleDump.rb ~/Desktop/schedule-archive/$filename
